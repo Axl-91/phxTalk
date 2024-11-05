@@ -1,0 +1,43 @@
+<h1 class="text-3xl font-bold"> PhxChatRoom </h1>
+
+<div class="py-5">
+    <div class="tab">
+        <%= for chat_room <- @chat_rooms do %>
+            <% active? = if chat_room.id == @active_chat_room.id, do: "active", else: "" %>
+            <button class={"tablinks #{active?}"} phx-click="change_chatroom" phx-value-id={chat_room.id}>
+                <%= chat_room.name %>
+            </button>
+        <% end %>
+    </div>
+
+    <div class="tabcontent">
+        <div class="chat_room_table">
+          <table>
+            <caption class="bg-brand/10 font-bold px-1 text-xl text-brand">
+              Chat Room: <%= @active_chat_room.name%>
+            </caption>
+            <tr>
+              <th>Description: <%= @active_chat_room.description%></th>
+            </tr>
+
+            <%= for chat_message <- @chat_messages do %>
+                <tr>
+                  <td><b><%= chat_message.user.email %>: </b><i>chat_message.message</i></td>
+                </tr>
+            <% end %>
+
+          </table> 
+        </div>
+    </div>
+</div>
+
+<.live_component
+  module={PhxChatRoomWeb.ChatRoomLive.FormComponent}
+  id={:new}
+  title={@page_title}
+  action={@live_action}
+  message={@input_message}
+  current_user={@current_user}
+  active_chat_room={@active_chat_room}
+  patch={~p"/chat_room"}
+/>

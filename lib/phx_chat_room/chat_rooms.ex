@@ -37,6 +37,15 @@ defmodule PhxChatRoom.ChatRooms do
   """
   def get_chat_room!(id), do: Repo.get!(ChatRoom, id)
 
+  def get_first_chat_room() do
+    q =
+      from cr in ChatRoom,
+      order_by: cr.inserted_at,
+      limit: 1
+
+    Repo.one(q)
+  end
+
   @doc """
   Creates a chat_room.
 

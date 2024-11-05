@@ -33,10 +33,10 @@ defmodule PhxChatRoom.ChatMessages do
       [%ChatMessage{}, ...]
 
   """
-  def list_chat_messages_by_chat_room(chat_room) do
+  def list_chat_messages_by_chat_room(chat_room_id) do
     q =
       from cm in ChatMessage,
-      where: cm.chat_room_id == ^chat_room.id
+      where: cm.chat_room_id == ^chat_room_id
 
     Repo.all(q)
   end
