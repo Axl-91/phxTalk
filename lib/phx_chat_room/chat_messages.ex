@@ -36,7 +36,8 @@ defmodule PhxChatRoom.ChatMessages do
   def list_chat_messages_by_chat_room(chat_room_id) do
     q =
       from cm in ChatMessage,
-      where: cm.chat_room_id == ^chat_room_id
+      where: cm.chat_room_id == ^chat_room_id,
+      preload: :user
 
     Repo.all(q)
   end
@@ -70,7 +71,7 @@ defmodule PhxChatRoom.ChatMessages do
 
   """
   def create_chat_message(%User{id: user_id}, %ChatRoom{id: chat_room_id}, attrs \\ %{}) do
-    attrs = Map.merge(attrs, %{user_id: user_id, chat_room_id: chat_room_id})
+    attrs = Map.merge(attrs, %{"user_id" => user_id, "chat_room_id" => chat_room_id}) |> IO.inspect()
 
     %ChatMessage{}
     |> ChatMessage.changeset(attrs)

@@ -10,7 +10,7 @@ defmodule PhxChatRoomWeb.ChatRoomLive.FormComponent do
       <.simple_form for={@form} id="message-form" phx-target={@myself} phx-submit="save">
         <.input
           id="input-chat"
-          field={@form[:text_message]}
+          field={@form[:message]}
           type="text"
           value=""
           placeholder="Write a message..."
@@ -35,9 +35,9 @@ defmodule PhxChatRoomWeb.ChatRoomLive.FormComponent do
   end
 
   @impl true
-  def handle_event("save", %{"message" => message_params}, socket) do
+  def handle_event("save", %{"chat_message" => message_params}, socket) do
     user = socket.assigns.current_user
-    chat_room = socket.assigns.chat_room
+    chat_room = socket.assigns.active_chat_room
 
     case ChatMessages.create_chat_message(user, chat_room, message_params) do
       {:ok, message} ->
