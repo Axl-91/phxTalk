@@ -70,6 +70,7 @@ defmodule PhxChatRoomWeb.Router do
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
 
       live "/chat_room", ChatRoomLive.Index, :index
+      live "/chat_room/new", ChatRoomLive.Index, :new
     end
   end
 

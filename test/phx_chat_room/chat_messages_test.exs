@@ -34,7 +34,7 @@ defmodule PhxChatRoom.ChatMessagesTest do
       valid_attrs = %{message: "some message"}
 
       assert {:ok, %ChatMessage{} = chat_message} =
-        ChatMessages.create_chat_message(user, chat_room, valid_attrs)
+               ChatMessages.create_chat_message(user, chat_room, valid_attrs)
 
       assert chat_message.message == "some message"
     end
@@ -44,7 +44,7 @@ defmodule PhxChatRoom.ChatMessagesTest do
       chat_room = chat_room_fixture()
 
       assert {:error, %Ecto.Changeset{}} =
-        ChatMessages.create_chat_message(user, chat_room, @invalid_attrs)
+               ChatMessages.create_chat_message(user, chat_room, @invalid_attrs)
     end
 
     test "update_chat_message/2 with valid data updates the chat_message" do
@@ -54,7 +54,9 @@ defmodule PhxChatRoom.ChatMessagesTest do
 
       update_attrs = %{message: "some updated message"}
 
-      assert {:ok, %ChatMessage{} = chat_message} = ChatMessages.update_chat_message(chat_message, update_attrs)
+      assert {:ok, %ChatMessage{} = chat_message} =
+               ChatMessages.update_chat_message(chat_message, update_attrs)
+
       assert chat_message.message == "some updated message"
     end
 
@@ -63,7 +65,9 @@ defmodule PhxChatRoom.ChatMessagesTest do
       chat_room = chat_room_fixture()
       chat_message = chat_message_fixture(user, chat_room)
 
-      assert {:error, %Ecto.Changeset{}} = ChatMessages.update_chat_message(chat_message, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+               ChatMessages.update_chat_message(chat_message, @invalid_attrs)
+
       assert chat_message == ChatMessages.get_chat_message!(chat_message.id)
     end
 

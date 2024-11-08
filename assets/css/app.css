@@ -78,3 +78,9 @@
     color: #000000;
     padding: 5px;
 }
+
+.title_div {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
