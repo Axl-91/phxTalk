@@ -1,4 +1,5 @@
 defmodule PhxChatRoomWeb.ChatRoomLive.Index do
+  alias PhxChatRoom.ChatRooms.ChatRoom
   use PhxChatRoomWeb, :live_view
 
   alias PhxChatRoom.ChatMessages
@@ -19,13 +20,16 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
 
     socket =
       socket
-      |> assign(:page_title, "Home")
       |> assign(:chat_rooms, ChatRooms.list_chat_rooms())
       |> assign(:active_chat_room, active_chat_room)
       |> stream(:chat_messages, chat_messages)
-      |> assign(:input_message, nil)
 
     {:ok, socket}
+  end
+
+  @impl true
+  def handle_params(params, _url, socket) do
+    {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
   @impl true
@@ -51,4 +55,14 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
     {:noreply, socket}
   end
 
+  defp apply_action(socket, :new, _params) do
+    socket
+    |> assign(:page_title, "New ChatRoom")
+    |> assign(:chat_room, %ChatRoom{})
+  end
+
+  defp apply_action(socket, _, _params) do
+    socket
+    |> assign(:page_title, "Home")
+  end
 end
