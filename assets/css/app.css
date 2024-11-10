@@ -15,6 +15,7 @@
 /* Style the buttons that are used to open the tab content */
 .tab button {
   display: block;
+  overflow-y: scroll;
   background-color: inherit;
   color: black;
   padding: 10px 10px;
@@ -38,10 +39,12 @@
 
 /* Style the tab content */
 .tabcontent {
+  display: block;
   float: left;
   border: 1px solid #ccc;
   width: 90%;
   border-left: none;
+  overflow-y: scroll;
   height: 500px;
 }
 

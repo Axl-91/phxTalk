@@ -19,15 +19,18 @@
     <% end %>
   </div>
 
-  <div class="tabcontent">
+  <div id="messages_table" class="tabcontent" phx-hook="updateTable">
     <div class="chat_room_table">
       <table>
         <caption class="bg-brand/10 font-bold px-1 text-xl text-brand">
           Chat Room: <%= @active_chat_room.name %>
         </caption>
-        <tr>
-          <th>Description: <%= @active_chat_room.description %></th>
-        </tr>
+
+        <thead>
+          <tr>
+            <th>Description: <%= @active_chat_room.description %></th>
+          </tr>
+        </thead>
 
         <tbody id="chat_messages" phx-update="stream">
           <tr :for={{id, chat_message} <- @streams.chat_messages} id={id}>
