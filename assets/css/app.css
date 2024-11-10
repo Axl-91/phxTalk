@@ -63,16 +63,10 @@
     text-align: left;
 }
 
-.chat_room_table caption {
-    caption-side: top;
-    text-align: left;
-}
-
 .chat_room_table th {
-    border: 1px solid #dededf;
-    background-color: #eceff1;
-    color: #000000;
-    padding: 5px;
+    background-color: rgb(238, 102, 52);
+    color: #ffffff;
+    padding: 6px;
 }
 
 .chat_room_table td {
