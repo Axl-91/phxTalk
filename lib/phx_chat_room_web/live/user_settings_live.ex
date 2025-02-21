@@ -10,7 +10,7 @@ defmodule PhxChatRoomWeb.UserSettingsLive do
       <:subtitle>Manage your account email address and password settings</:subtitle>
     </.header>
 
-    <div class="space-y-12 divide-y">
+    <div class="mx-auto max-w-sm space-y-12 divide-y">
       <div>
         <.simple_form
           for={@email_form}

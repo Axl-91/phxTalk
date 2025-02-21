@@ -12,7 +12,9 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
       PhxChatRoomWeb.Endpoint.subscribe("chat_room")
     end
 
-    active_chat_room = ChatRooms.get_first_chat_room()
+    active_chat_room =
+      ChatRooms.get_first_chat_room()
+      |> default_chatroom_if_nil()
 
     chat_messages =
       active_chat_room.id
@@ -65,4 +67,10 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
     socket
     |> assign(:page_title, "Home")
   end
+
+  defp default_chatroom_if_nil(nil) do
+    ChatRooms.create_chat_room(%{name: "default", description: "This is the default chatroom"})
+  end
+
+  defp default_chatroom_if_nil(chatroom), do: chatroom
 end

@@ -6,7 +6,7 @@
 
 .tab {
     float: left;
-    border: 1px solid #ccc;
+    border: 1px solid gray;
     background-color: #f1f1f1;
     width: 10%;
     height: 500px;
@@ -41,7 +41,7 @@
 .tabcontent {
   display: block;
   float: left;
-  border: 1px solid #ccc;
+  border: 1px solid gray;
   width: 90%;
   border-left: none;
   overflow-y: scroll;
@@ -54,7 +54,6 @@
 }
 
 .chat_room_table table {
-    border: 1px solid #dededf;
     height: 100%;
     width: 100%;
     table-layout: fixed;
@@ -64,13 +63,12 @@
 }
 
 .chat_room_table th {
-    background-color: rgb(238, 102, 52);
+    background-color: gray;
     color: #ffffff;
     padding: 6px;
 }
 
 .chat_room_table td {
-    border: 1px solid #dededf;
     background-color: #ffffff;
     color: #000000;
     padding: 5px;

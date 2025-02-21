@@ -1,16 +1,16 @@
 <div class="title_div">
-  <h1 class="text-3xl font-bold text-brand">PhxChatRoom</h1>
+  <h1 class="text-3xl font-bold ">PhxChatRoom</h1>
   <.link patch={~p"/chat_room/new"}>
     <.button>Create new ChatRoom</.button>
   </.link>
 </div>
-
+<!-- Tabs Section -->
 <div class="py-2">
-  <div class="tab">
+  <div class="tab border-b-2 pb-2">
     <%= for chat_room <- @chat_rooms do %>
       <% active? = if chat_room.id == @active_chat_room.id, do: "active", else: "" %>
       <button
-        class={"tablinks #{active?}"}
+        class={"pb-2 font-italic #{active?} transition-colors duration-200 ease-in-out"}
         phx-click="change_chatroom"
         phx-value-id={chat_room.id}
       >
@@ -18,26 +18,29 @@
       </button>
     <% end %>
   </div>
-
+  <!-- ChatRoom Section -->
   <div id="messages_table" class="tabcontent" phx-hook="updateTable">
-    <div class="chat_room_table">
+    <div class="chat_room_table shadow-lg">
       <table>
         <thead>
           <tr>
-            <th><%= @active_chat_room.name %> | <%= @active_chat_room.description %></th>
+            <th><%= @active_chat_room.name %>: <%= @active_chat_room.description %></th>
           </tr>
         </thead>
 
         <tbody id="chat_messages" phx-update="stream">
           <tr :for={{id, chat_message} <- @streams.chat_messages} id={id}>
-            <td><b><%= chat_message.user.email %>:</b><i><%= chat_message.message %></i></td>
+            <td>
+              <b class="text-blue-500"><%= chat_message.user.email %>:</b>
+              <i class="text-gray-700 text-sm"><%= chat_message.message %></i>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
-
+<!-- Form Section -->
 <.live_component
   module={PhxChatRoomWeb.ChatMessageLive.FormComponent}
   id={:new}
