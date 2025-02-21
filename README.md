@@ -1,17 +1,23 @@
 # PhxChatRoom
 
 ### Objective
-This project recreates a Chat Room, where you can leave message in real time with other users and create new Chat Rooms
+The objective of this project is to create a simple chat room that works in real time.
 
+### Features as of now
+- [x] User authentication
+- [x] Users can send messages in real time through chatrooms
+- [x] Users can create different chatrooms
+- [ ] Allow to delete chatrooms
+- [ ] Private chatrooms only allowed to certain users
 
-### Set up you ```.env``` file
+### Instructions to run the project
+
+#### Set up you ```.env``` file
 ``` env
 POSTGRES_USER=
 POSTGRES_DB=
 POSTGRES_PASSWORD=
 ```
-
-### Run project
 
 #### Create/Run Db
 ```
