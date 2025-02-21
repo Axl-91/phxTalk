@@ -1,18 +1,27 @@
 # PhxChatRoom
 
-To start your Phoenix server:
+### Objective
+This project recreates a Chat Room, where you can leave message in real time with other users and create new Chat Rooms
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+### Set up you ```.env``` file
+``` env
+POSTGRES_USER=
+POSTGRES_DB=
+POSTGRES_PASSWORD=
+```
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### Run project
 
-## Learn more
+#### Create/Run Db
+```
+make up (docker compose up -d)
+make down (docker compose down)
+```
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+#### Run Elixir
+``` elixir
+mix deps.get
+mix ecto.migrate
+mix iex -S phx.server
+```
