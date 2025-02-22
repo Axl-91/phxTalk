@@ -72,7 +72,7 @@ defmodule PhxChatRoom.ChatMessages do
   """
   def create_chat_message(%User{id: user_id}, %ChatRoom{id: chat_room_id}, attrs \\ %{}) do
     attrs =
-      Map.merge(attrs, %{"user_id" => user_id, "chat_room_id" => chat_room_id}) |> IO.inspect()
+      Map.merge(attrs, %{"user_id" => user_id, "chat_room_id" => chat_room_id})
 
     %ChatMessage{}
     |> ChatMessage.changeset(attrs)

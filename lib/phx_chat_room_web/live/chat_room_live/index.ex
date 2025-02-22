@@ -12,8 +12,6 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
       PhxChatRoomWeb.Endpoint.subscribe("chat_room")
     end
 
-    IO.inspect(socket.assigns, label: "assigns")
-
     active_chat_room =
       ChatRooms.get_first_chat_room()
       |> default_chatroom_if_nil()
