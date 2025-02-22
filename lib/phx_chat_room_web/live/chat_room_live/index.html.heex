@@ -6,15 +6,26 @@
 </div>
 <!-- Tabs Section -->
 <div class="py-2">
-  <div class="tab border-b-2 pb-2">
+  <div class="tab">
     <%= for chat_room <- @chat_rooms do %>
       <% active? = if chat_room.id == @active_chat_room.id, do: "active", else: "" %>
       <button
-        class={"pb-2 font-italic #{active?} transition-colors duration-200 ease-in-out"}
+        class={"tab-button font-italic #{active?} transition-colors duration-200 ease-in-out"}
         phx-click="change_chatroom"
         phx-value-id={chat_room.id}
       >
         <%= chat_room.name %>
+        <div class="flex space-x-2">
+          <!-- Info Icon -->
+          <i class="fas fa-info-circle text-blue-500 cursor-pointer"></i>
+          <!-- Delete Icon -->
+          <i
+            class="fas fa-trash-alt text-red-500 cursor-pointer"
+            phx-click="delete_chatroom"
+            phx-value-id={chat_room.id}
+          >
+          </i>
+        </div>
       </button>
     <% end %>
   </div>
@@ -22,15 +33,9 @@
   <div id="messages_table" class="tabcontent" phx-hook="updateTable">
     <div class="chat_room_table shadow-lg">
       <table>
-        <thead>
-          <tr>
-            <th><%= @active_chat_room.name %>: <%= @active_chat_room.description %></th>
-          </tr>
-        </thead>
-
         <tbody id="chat_messages" phx-update="stream">
           <tr :for={{id, chat_message} <- @streams.chat_messages} id={id}>
-            <td>
+            <td class="border-t">
               <b class="text-blue-500"><%= chat_message.user.email %>:</b>
               <i class="text-gray-700 text-sm"><%= chat_message.message %></i>
             </td>

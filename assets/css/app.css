@@ -13,8 +13,10 @@
   }
   
 /* Style the buttons that are used to open the tab content */
-.tab button {
-  display: block;
+.tab-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   overflow-y: scroll;
   background-color: inherit;
   color: black;
@@ -25,6 +27,16 @@
   text-align: left;
   cursor: pointer;
   transition: 0.3s;
+}
+
+.tab-button i {
+  cursor: pointer;              
+  transition: transform 0.3s, color 0.3s;
+}
+
+/* Hover effect for icons */
+.tab-button i:hover {
+  transform: scale(1.2);
 }
 
 /* Change background color of buttons on hover */

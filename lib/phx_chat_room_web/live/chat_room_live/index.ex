@@ -12,6 +12,8 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
       PhxChatRoomWeb.Endpoint.subscribe("chat_room")
     end
 
+    IO.inspect(socket.assigns, label: "assigns")
+
     active_chat_room =
       ChatRooms.get_first_chat_room()
       |> default_chatroom_if_nil()
@@ -48,6 +50,44 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
   end
 
   @impl true
+  def handle_event(
+        "delete_chatroom",
+        %{"id" => chat_room_id},
+        %{assigns: %{active_chat_room: %{id: chat_room_id}}} = socket
+      ) do
+    ChatRooms.get_chat_room!(chat_room_id)
+    |> ChatRooms.delete_chat_room()
+
+    active_chat_room =
+      ChatRooms.get_first_chat_room()
+      |> default_chatroom_if_nil()
+
+    chat_messages =
+      active_chat_room.id
+      |> ChatMessages.list_chat_messages_by_chat_room()
+
+    socket =
+      socket
+      |> assign(:chat_rooms, ChatRooms.list_chat_rooms())
+      |> assign(:active_chat_room, active_chat_room)
+      |> stream(:chat_messages, chat_messages, reset: true)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("delete_chatroom", %{"id" => chat_room_id}, socket) do
+    ChatRooms.get_chat_room!(chat_room_id)
+    |> ChatRooms.delete_chat_room()
+
+    socket =
+      socket
+      |> assign(:chat_rooms, ChatRooms.list_chat_rooms())
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info(%Broadcast{topic: "chat_room", event: "new_message", payload: message}, socket) do
     socket =
       socket
@@ -69,7 +109,10 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
   end
 
   defp default_chatroom_if_nil(nil) do
-    ChatRooms.create_chat_room(%{name: "default", description: "This is the default chatroom"})
+    {:ok, chat_room} =
+      ChatRooms.create_chat_room(%{name: "default", description: "This is the default chatroom"})
+
+    chat_room
   end
 
   defp default_chatroom_if_nil(chatroom), do: chatroom
