@@ -31,6 +31,9 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
 
   @impl true
   def handle_params(params, _url, socket) do
+    # Temporary solution
+    chat_rooms = get_total_chatrooms(socket.assigns.chat_rooms, ChatRooms.list_chat_rooms())
+    socket = socket |> assign(:chat_rooms, chat_rooms)
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
@@ -114,4 +117,7 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
   end
 
   defp default_chatroom_if_nil(chatroom), do: chatroom
+
+  defp get_total_chatrooms(socket_chatrooms, socket_chatrooms), do: socket_chatrooms
+  defp get_total_chatrooms(_, total_chatrooms), do: total_chatrooms
 end

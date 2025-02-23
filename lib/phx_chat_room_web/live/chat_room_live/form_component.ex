@@ -52,7 +52,7 @@ defmodule PhxChatRoomWeb.ChatRoomLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "ChatRoom created successfully")
-         |> push_navigate(to: ~p"/chat_room")}
+         |> push_patch(to: ~p"/chat_room")}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
