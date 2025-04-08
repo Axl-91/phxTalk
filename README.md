@@ -31,11 +31,10 @@ mix deps.get
 mix ecto.migrate
 mix iex -S phx.server
 ```
-![PhxTalk]()
 
 <h1></h1>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/919eafac-c29c-46d1-bffa-f9c865f7211b", width="400", height="400", alt="PhxTalk Logo" /> 
+  <img src="https://github.com/user-attachments/assets/3126db34-e90e-479a-9171-a788ff8c594f", width="200", height="200", alt="PhxTalk Logo" /> 
 </p>
 
