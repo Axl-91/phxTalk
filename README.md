@@ -7,8 +7,8 @@ The objective of this project is to create a simple chat room that works in real
 - [x] User authentication
 - [x] Users can send messages in real time through chatrooms
 - [x] Users can create different chatrooms
-- [ ] Allow to delete chatrooms
-- [ ] Private chatrooms only allowed to certain users
+- [x] Allow to delete chatrooms
+- [ ] Create private chatrooms (Only allowed to selected users)
 
 ### Instructions to run the project
 
