@@ -1,4 +1,4 @@
-# PhxChatRoom
+# PhxTalk
 
 ### Objective
 The objective of this project is to create a simple chat room that works in real time.
@@ -12,20 +12,20 @@ The objective of this project is to create a simple chat room that works in real
 
 ### Instructions to run the project
 
-#### Set up you ```.env``` file
+#### 1) Set up you ```.env``` file
 ``` env
 POSTGRES_USER=
 POSTGRES_DB=
 POSTGRES_PASSWORD=
 ```
 
-#### Create/Run Db
+#### 2) Create/Run Db
 ```
 make up (docker compose up -d)
 make down (docker compose down)
 ```
 
-#### Run Elixir
+#### 3) Run Elixir App
 ``` elixir
 mix deps.get
 mix ecto.migrate
