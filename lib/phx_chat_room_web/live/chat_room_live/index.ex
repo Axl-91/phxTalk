@@ -68,6 +68,7 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
     socket =
       socket
       |> assign(:active_chat_room, active_chat_room)
+      |> assign(:chat_rooms, ChatRooms.list_chat_rooms())
       |> stream(:chat_messages, chat_messages, reset: true)
 
     {:noreply, socket}

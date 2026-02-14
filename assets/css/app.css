@@ -5,13 +5,13 @@
 /* This file is for your main application CSS */
 
 .tab {
-    float: left;
-    border: 1px solid gray;
-    background-color: #f1f1f1;
-    width: 10%;
-    height: 500px;
-  }
-  
+  float: left;
+  border: 1px solid gray;
+  background-color: #f1f1f1;
+  width: 10%;
+  height: 500px;
+}
+
 /* Style the buttons that are used to open the tab content */
 .tab-button {
   display: flex;
@@ -30,7 +30,7 @@
 }
 
 .tab-button i {
-  cursor: pointer;              
+  cursor: pointer;
   transition: transform 0.3s, color 0.3s;
 }
 
@@ -61,33 +61,27 @@
 }
 
 .chat_room_table {
-    overflow: auto;
-    width: 100%;
+  overflow: auto;
+  width: 100%;
 }
 
 .chat_room_table table {
-    height: 100%;
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    border-spacing: 1px;
-    text-align: left;
+  height: 100%;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-spacing: 1px;
+  text-align: left;
 }
 
 .chat_room_table th {
-    background-color: gray;
-    color: #ffffff;
-    padding: 6px;
+  background-color: gray;
+  color: #ffffff;
+  padding: 6px;
 }
 
 .chat_room_table td {
-    background-color: #ffffff;
-    color: #000000;
-    padding: 5px;
-}
-
-.title_div {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
+  background-color: #ffffff;
+  color: #000000;
+  padding: 5px;
 }
