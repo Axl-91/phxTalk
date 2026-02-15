@@ -14,6 +14,7 @@ defmodule PhxChatRoomWeb.ChatMessageLive.FormComponent do
           type="text"
           value=""
           placeholder="Write a message..."
+          phx-change="validate"
           phx-hook="updateText"
         />
         <:actions>
@@ -32,6 +33,14 @@ defmodule PhxChatRoomWeb.ChatMessageLive.FormComponent do
      |> assign_new(:form, fn ->
        to_form(ChatMessages.change_chat_message(%ChatMessages.ChatMessage{}))
      end)}
+  end
+
+  @impl true
+  def handle_event("validate", %{"chat_message" => message_params}, socket) do
+    changeset =
+      ChatMessages.change_chat_message(%ChatMessages.ChatMessage{}, message_params)
+
+    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
   @impl true

@@ -5,8 +5,8 @@
   </.link>
 </div>
 <!-- Tabs Section -->
-<div class="py-2">
-  <div class="float-left border border-r-2 border-r-gray-500 border-gray-400 bg-gray-200 w-1/10 h-[500px]">
+<div class="pt-5">
+  <div class="overflow-y-auto float-left border border-r-2 border-r-gray-500 border-gray-400 bg-gray-200 w-1/10 h-[500px]">
     <%= for chat_room <- @chat_rooms do %>
       <% button_color =
         if chat_room.id == @active_chat_room.id, do: "bg-gray-400", else: "hover:bg-gray-300" %>
