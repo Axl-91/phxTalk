@@ -35,6 +35,6 @@ mix iex -S phx.server
 <h1></h1>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/3126db34-e90e-479a-9171-a788ff8c594f", width="200", height="200", alt="PhxTalk Logo" /> 
+  <img src="https://github.com/Axl-91/phxTalk/blob/main/PhxTalk.png", width="400", height="400", alt="PhxTalk" /> 
 </p>
 
