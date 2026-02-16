@@ -1,8 +1,9 @@
 defmodule PhxChatRoomWeb.ChatRoomLive.Index do
-  alias PhxChatRoom.ChatRooms.ChatRoom
   use PhxChatRoomWeb, :live_view
 
+  alias PhxChatRoom.ChatRooms.ChatRoom
   alias PhxChatRoom.ChatMessages
+  alias PhxChatRoom.ChatMessages.ChatMessage
   alias PhxChatRoom.ChatRooms
   alias Phoenix.Socket.Broadcast
 
@@ -87,12 +88,24 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
   end
 
   @impl true
-  def handle_info(%Broadcast{topic: "chat_room", event: "new_message", payload: message}, socket) do
+  def handle_info(
+        %Broadcast{
+          topic: "chat_room",
+          event: "new_message",
+          payload: %ChatMessage{chat_room_id: chat_room_id} = message
+        },
+        %{assigns: %{active_chat_room: %{id: chat_room_id}}} = socket
+      ) do
     socket =
       socket
       |> stream_insert(:chat_messages, message)
       |> push_event("scroll-down", %{})
 
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(%Broadcast{topic: "chat_room", event: "new_message"}, socket) do
     {:noreply, socket}
   end
 

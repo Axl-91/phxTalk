@@ -34,11 +34,11 @@
 .tabcontent {
   display: block;
   float: left;
-  border: 1px solid gray;
+  border: 2px solid gray;
   width: 85%;
   border-left: none;
   overflow-y: scroll;
-  height: 500px;
+  height: 600px;
 }
 
 .chat_room_table {
