@@ -8,7 +8,7 @@ defmodule PhxChatRoom.ChatMessagesFixtures do
   Generate a chat_message.
   """
   def chat_message_fixture(user, chat_room) do
-    attrs = %{message: "some message"}
+    attrs = %{"message" => "some message"}
 
     {:ok, chat_message} =
       PhxChatRoom.ChatMessages.create_chat_message(user, chat_room, attrs)

@@ -10,7 +10,7 @@ defmodule PhxChatRoom.ChatMessagesTest do
     import PhxChatRoom.ChatRoomsFixtures
     import PhxChatRoom.ChatMessagesFixtures
 
-    @invalid_attrs %{message: nil}
+    @invalid_attrs %{"message" => nil}
 
     test "list_chat_messages/0 returns all chat_messages" do
       user = user_fixture()
@@ -31,7 +31,7 @@ defmodule PhxChatRoom.ChatMessagesTest do
     test "create_chat_message/1 with valid data creates a chat_message" do
       user = user_fixture()
       chat_room = chat_room_fixture()
-      valid_attrs = %{message: "some message"}
+      valid_attrs = %{"message" => "some message"}
 
       assert {:ok, %ChatMessage{} = chat_message} =
                ChatMessages.create_chat_message(user, chat_room, valid_attrs)
@@ -52,7 +52,7 @@ defmodule PhxChatRoom.ChatMessagesTest do
       chat_room = chat_room_fixture()
       chat_message = chat_message_fixture(user, chat_room)
 
-      update_attrs = %{message: "some updated message"}
+      update_attrs = %{"message" => "some updated message"}
 
       assert {:ok, %ChatMessage{} = chat_message} =
                ChatMessages.update_chat_message(chat_message, update_attrs)
