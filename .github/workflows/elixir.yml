@@ -14,6 +14,16 @@ jobs:
 
     name: Build and test
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: root
+          POSTGRES_PASSWORD: s1cr3t
+          POSTGRES_DB: chatroom
+        ports:
+          - 5432:5432
     
     env: 
       ImageOS: ubuntu22
@@ -33,12 +43,5 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
-    - name: Load environment variables
-      run: |
-        echo "POSTGRES_USER=username" >> .env
-        echo "POSTGRES_PASSWORD=password" >> .env
-        echo "POSTGRES_DB=dummy_db" >> .env
-    - name: Build and Run Docker Container
-      run: make up
     - name: Run tests
       run: mix test
