@@ -35,11 +35,9 @@ jobs:
       run: mix deps.get
     - name: Load environment variables
       run: |
-        export $(grep -v '^#' .env | xargs)
-      env:
-        POSTGRES_USER: username
-        POSTGRES_PASSWORD: password
-        POSTGRES_DB: dummy_db
+        echo "POSTGRES\_USER=username" >> .env
+        echo "POSTGRES\_PASSWORD=password" >> .env
+        echo "POSTGRES\_DB=dummy\_db" >> .env
     - name: Build and Run Docker Container
       run: make up
     - name: Run tests
