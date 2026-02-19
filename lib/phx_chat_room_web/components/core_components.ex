@@ -212,6 +212,29 @@ defmodule PhxChatRoomWeb.CoreComponents do
     """
   end
 
+  attr :for, :any, required: true, doc: "the datastructure for the form"
+  attr :as, :any, default: nil, doc: "the server side parameter to collect all input under"
+
+  attr :rest, :global,
+    include: ~w(autocomplete name rel action enctype method novalidate target multipart),
+    doc: "the arbitrary HTML attributes to apply to the form tag"
+
+  slot :inner_block, required: true
+  slot :actions, doc: "the slot for form actions, such as a submit button"
+
+  def chat_form(assigns) do
+    ~H"""
+    <.form :let={f} for={@for} as={@as} {@rest}>
+      <div class="bg-white">
+        {render_slot(@inner_block, f)}
+        <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
+          {render_slot(action, f)}
+        </div>
+      </div>
+    </.form>
+    """
+  end
+
   @doc """
   Renders a button.
 
@@ -379,8 +402,8 @@ defmodule PhxChatRoomWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full ",
-          "#{if chatroom_input?, do: "rounded-b-lg border-t-0", else: "rounded-lg"}",
+          "block w-full ",
+          "#{if chatroom_input?, do: "rounded-b-lg border-t-0", else: "mt-2 rounded-lg"}",
           "text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 border-zinc-500",
           @errors == [] && "border-zinc-300 focus:border-zinc-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"

@@ -7,7 +7,7 @@ defmodule PhxChatRoomWeb.ChatMessageLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.simple_form for={@form} id="message-form" phx-target={@myself} phx-submit="save">
+      <.chat_form for={@form} id="message-form" phx-target={@myself} phx-submit="save">
         <.input
           id="input-chat"
           field={@form[:message]}
@@ -20,7 +20,7 @@ defmodule PhxChatRoomWeb.ChatMessageLive.FormComponent do
         <:actions>
           <.button phx-disable-with="Saving...">Send</.button>
         </:actions>
-      </.simple_form>
+      </.chat_form>
     </div>
     """
   end

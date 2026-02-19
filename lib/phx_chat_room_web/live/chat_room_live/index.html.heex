@@ -1,14 +1,15 @@
 <div class="flex flex-col">
+  <!-- Header Section -->
   <div class="flex text-white justify-between items-center mt-2 py-2 px-4 bg-gradient-to-r from-orange-700 to-orange-500 rounded-t-xl shadow-lg">
     <h1 class="text-3xl font-extrabold tracking-tight font-san">PhxChatRoom</h1>
     <.link patch={~p"/chat_room/new"}>
       <.button>Create new ChatRoom</.button>
     </.link>
   </div>
-  
-<!-- Tabs Section -->
-  <div>
+
+  <div class="flex mb-0">
     <div class="overflow-y-auto float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-1/10 h-[600px]">
+      <!-- Rooms Section -->
       <%= for chat_room <- @chat_rooms do %>
         <% button_color =
           if chat_room.id == @active_chat_room.id, do: "bg-gray-400", else: "hover:bg-gray-300" %>
@@ -30,10 +31,9 @@
         </button>
       <% end %>
     </div>
-    
-<!-- ChatRoom Section -->
 
     <div id="messages_table" class="tabcontent border-2 border-orange-600" phx-hook="updateTable">
+      <!-- Chat Section -->
       <div class="chat_room_table shadow-lg">
         <table>
           <tbody id="chat_messages" phx-update="stream">
@@ -47,19 +47,17 @@
         </table>
       </div>
     </div>
-    
-<!-- Form Section -->
-
-    <.live_component
-      module={PhxChatRoomWeb.ChatMessageLive.FormComponent}
-      id={:new}
-      title={@page_title}
-      action={@live_action}
-      current_user={@current_user}
-      active_chat_room={@active_chat_room}
-      patch={~p"/chat_room"}
-    />
   </div>
+  <!-- Chat Form Section -->
+  <.live_component
+    module={PhxChatRoomWeb.ChatMessageLive.FormComponent}
+    id={:new}
+    title={@page_title}
+    action={@live_action}
+    current_user={@current_user}
+    active_chat_room={@active_chat_room}
+    patch={~p"/chat_room"}
+  />
 </div>
 
 <.modal :if={@live_action in [:new]} id="chatroom-modal" show on_cancel={JS.patch(~p"/chat_room")}>
