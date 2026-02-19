@@ -17,9 +17,6 @@ jobs:
     
     env: 
       ImageOS: ubuntu22
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: dummy_db
 
     steps:
     - uses: actions/checkout@v4
@@ -36,6 +33,13 @@ jobs:
         restore-keys: ${{ runner.os }}-mix-
     - name: Install dependencies
       run: mix deps.get
+    - name: Load environment variables
+      run: |
+        export $(grep -v '^#' .env | xargs)
+      env:
+        POSTGRES_USER: username
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: dummy_db
     - name: Build and Run Docker Container
       run: make up
     - name: Run tests
