@@ -17,6 +17,9 @@ jobs:
     
     env: 
       ImageOS: ubuntu22
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: dummy_db
 
     steps:
     - uses: actions/checkout@v4
