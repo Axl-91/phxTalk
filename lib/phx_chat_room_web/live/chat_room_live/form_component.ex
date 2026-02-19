@@ -8,7 +8,7 @@ defmodule PhxChatRoomWeb.ChatRoomLive.FormComponent do
     ~H"""
     <div>
       <.header>
-        <%= @title %>
+        {@title}
         <:subtitle>Create a new ChatRoom.</:subtitle>
       </.header>
 
