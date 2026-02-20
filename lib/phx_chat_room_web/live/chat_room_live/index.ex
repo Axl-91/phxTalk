@@ -115,6 +115,14 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
     |> assign(:chat_room, %ChatRoom{})
   end
 
+  defp apply_action(socket, :edit, params) do
+    chat_room = ChatRooms.get_chat_room!(params["id"])
+
+    socket
+    |> assign(:page_title, "Edit ChatRoom")
+    |> assign(:chat_room, chat_room)
+  end
+
   defp apply_action(socket, _, _params) do
     socket
     |> assign(:page_title, "Home")
@@ -122,7 +130,7 @@ defmodule PhxChatRoomWeb.ChatRoomLive.Index do
 
   defp default_chatroom_if_nil(nil) do
     {:ok, chat_room} =
-      ChatRooms.create_chat_room(%{name: "default", description: "This is the default chatroom"})
+      ChatRooms.create_chat_room(%{name: "Default", description: "This is the default chatroom"})
 
     chat_room
   end

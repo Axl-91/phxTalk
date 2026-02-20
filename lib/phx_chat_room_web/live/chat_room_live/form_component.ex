@@ -9,7 +9,6 @@ defmodule PhxChatRoomWeb.ChatRoomLive.FormComponent do
     <div>
       <.header>
         {@title}
-        <:subtitle>Create a new ChatRoom.</:subtitle>
       </.header>
 
       <.simple_form
@@ -17,12 +16,24 @@ defmodule PhxChatRoomWeb.ChatRoomLive.FormComponent do
         id="chatroom-form"
         phx-target={@myself}
         phx-change="validate"
-        phx-submit="save"
+        phx-submit={
+          if @id == :new do
+            "save"
+          else
+            "edit"
+          end
+        }
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="text" label="Description" />
         <:actions>
-          <.button phx-disable-with="Saving...">Create ChatRoom</.button>
+          <.button phx-disable-with="Saving...">
+            {if @id == :new do
+              "Create"
+            else
+              "Save"
+            end}
+          </.button>
         </:actions>
       </.simple_form>
     </div>
@@ -52,6 +63,21 @@ defmodule PhxChatRoomWeb.ChatRoomLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "ChatRoom created successfully")
+         |> push_patch(to: ~p"/chat_room")}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, form: to_form(changeset))}
+    end
+  end
+
+  def handle_event("edit", %{"chat_room" => chatroom_params}, socket) do
+    chat_room = ChatRooms.get_chat_room!(socket.assigns.chat_room.id)
+
+    case ChatRooms.update_chat_room(chat_room, chatroom_params) do
+      {:ok, _chatroom} ->
+        {:noreply,
+         socket
+         |> put_flash(:info, "ChatRoom edited successfully")
          |> push_patch(to: ~p"/chat_room")}
 
       {:error, %Ecto.Changeset{} = changeset} ->

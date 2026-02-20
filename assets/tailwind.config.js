@@ -19,6 +19,9 @@ module.exports = {
       width: {
         '1/10': '15%',
       },
+      dropShadow: {
+        'border': '0 1.2px 1.2px rgba(0, 0, 0, 0.8)'
+      }
     },
   },
   plugins: [

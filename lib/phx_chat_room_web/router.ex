@@ -71,6 +71,7 @@ defmodule PhxChatRoomWeb.Router do
 
       live "/chat_room", ChatRoomLive.Index, :index
       live "/chat_room/new", ChatRoomLive.Index, :new
+      live "/chat_room/edit/:id", ChatRoomLive.Index, :edit
     end
   end
 
