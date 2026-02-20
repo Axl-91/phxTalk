@@ -1,15 +1,15 @@
-<div class="flex flex-col">
+<div class="flex flex-col mx-10 my-4">
   <!-- Header Section -->
   <div class="flex text-white justify-between items-center mt-2 py-2 px-4 bg-gradient-to-r from-orange-700 to-orange-500 rounded-t-xl shadow-lg">
-    <h1 class="text-3xl font-extrabold tracking-tight font-san">PhxChatRoom</h1>
+    <h1 class="text-3xl font-extrabold tracking-tight font-san">PhxTalk</h1>
     <.link patch={~p"/chat_room/new"}>
       <.button>Create new ChatRoom</.button>
     </.link>
   </div>
 
   <div class="flex mb-0">
+    <!-- Rooms Section -->
     <div class="overflow-y-auto float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-1/10 h-[600px]">
-      <!-- Rooms Section -->
       <%= for chat_room <- @chat_rooms do %>
         <% button_color =
           if chat_room.id == @active_chat_room.id, do: "bg-gray-400", else: "hover:bg-gray-300" %>
@@ -20,9 +20,9 @@
         >
           {chat_room.name}
           <div class="flex space-x-2">
-            <i class="fas fa-info-circle text-blue-500 cursor-pointer"></i>
+            <i class="fas fa-info-circle text-blue-600 cursor-pointer"></i>
             <i
-              class="fas fa-trash-alt text-red-500 cursor-pointer"
+              class="fas fa-trash-alt text-red-700 cursor-pointer"
               phx-click="delete_chatroom"
               phx-value-id={chat_room.id}
             >
@@ -48,7 +48,7 @@
       </div>
     </div>
   </div>
-  <!-- Chat Form Section -->
+  <!-- ChatForm Section -->
   <.live_component
     module={PhxChatRoomWeb.ChatMessageLive.FormComponent}
     id={:new}
