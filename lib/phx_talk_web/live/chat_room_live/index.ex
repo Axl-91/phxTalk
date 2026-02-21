@@ -45,6 +45,7 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       socket
       |> assign(:active_chat_room, new_active_chat_room)
       |> stream(:chat_messages, new_chat_messages, reset: true)
+      |> push_event("scroll-down", %{})
 
     {:noreply, socket}
   end

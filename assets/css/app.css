@@ -30,16 +30,6 @@
   transform: scale(1.2);
 }
 
-/* Style the tab content */
-.tabcontent {
-  display: block;
-  float: left;
-  width: 85%;
-  border-left: none;
-  overflow-y: scroll;
-  height: 600px;
-}
-
 .chat_room_table {
   overflow: auto;
   width: 100%;

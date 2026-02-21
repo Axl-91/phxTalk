@@ -11,7 +11,7 @@ defmodule PhxTalkWeb.ChatComponents do
     <div class="flex text-white justify-between items-center py-2 px-4 bg-gradient-to-r from-orange-700 to-orange-500 rounded-t-xl shadow-lg">
       <h1 class="text-3xl font-extrabold tracking-tighter italic drop-shadow-border">PhxTalk</h1>
       <.link patch={~p"/chat_room/new"}>
-        <.button class="shadow-xl">Create new ChatRoom</.button>
+        <.button class="shadow-xl">New ChatRoom</.button>
       </.link>
     </div>
     """
@@ -19,7 +19,7 @@ defmodule PhxTalkWeb.ChatComponents do
 
   def chat_rooms(assigns) do
     ~H"""
-    <div class="overflow-y-auto float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-1/10 h-[600px]">
+    <div class="overflow-y-auto float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-1/6 h-[600px]">
       <%= for chat_room <- @chat_rooms do %>
         <% button_color =
           if chat_room.id == @active_chat_room.id, do: "bg-gray-400", else: "hover:bg-gray-300" %>
@@ -48,7 +48,14 @@ defmodule PhxTalkWeb.ChatComponents do
 
   def chat_messages(assigns) do
     ~H"""
-    <div id="messages_table" class="tabcontent border-2 border-orange-600" phx-hook="updateTable">
+    <div
+      id="messages_table"
+      class="tabcontent w-5/6 border-2 border-l-0 border-orange-600 block float-left overflow-y-scroll h-[600px]"
+      phx-hook="updateTable"
+    >
+      <div class="bg-zinc-200 py-1 px-2 border-b-2 border-zinc-500">
+        <strong>Description:</strong> {@active_chat_room.description}
+      </div>
       <div class="chat_room_table shadow-lg">
         <table>
           <tbody id="chat_messages" phx-update="stream">
