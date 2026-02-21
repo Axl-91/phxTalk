@@ -17,7 +17,7 @@ defmodule PhxChatRoomWeb.ChatComponents do
     """
   end
 
-  def chat_room_tabs(assigns) do
+  def chat_rooms(assigns) do
     ~H"""
     <div class="overflow-y-auto float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-1/10 h-[600px]">
       <%= for chat_room <- @chat_rooms do %>
@@ -46,7 +46,7 @@ defmodule PhxChatRoomWeb.ChatComponents do
     """
   end
 
-  def chat_room_messages(assigns) do
+  def chat_messages(assigns) do
     ~H"""
     <div id="messages_table" class="tabcontent border-2 border-orange-600" phx-hook="updateTable">
       <div class="chat_room_table shadow-lg">

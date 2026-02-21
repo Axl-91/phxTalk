@@ -1,16 +1,14 @@
 <div class="flex flex-col mx-10 my-4 rounded-t-xl">
-  <!-- Header Section -->
   <PhxChatRoomWeb.ChatComponents.chat_header />
+
   <div class="flex">
-    <!-- Rooms Section -->
-    <PhxChatRoomWeb.ChatComponents.chat_room_tabs
+    <PhxChatRoomWeb.ChatComponents.chat_rooms
       chat_rooms={@chat_rooms}
       active_chat_room={@active_chat_room}
     />
-    <!-- Messages Section -->
-    <PhxChatRoomWeb.ChatComponents.chat_room_messages streams={@streams} />
+    <PhxChatRoomWeb.ChatComponents.chat_messages streams={@streams} />
   </div>
-  <!-- ChatForm Section -->
+
   <.live_component
     module={PhxChatRoomWeb.ChatMessageLive.FormComponent}
     id={:new}

@@ -263,6 +263,7 @@ defmodule PhxChatRoomWeb.CoreComponents do
       class={[
         "phx-submit-loading:opacity-75 rounded-lg bg-orange-600 border-2 border-orange-700 hover:bg-orange-500 py-2 px-3",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
+        "transition-transform ease-in-out active:scale-95",
         @class
       ]}
       {@rest}
