@@ -261,7 +261,7 @@ defmodule PhxTalkWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-orange-600 border-2 border-orange-700 hover:bg-orange-500 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-lg bg-orange-600 ring-2 ring-orange-700/50 hover:bg-orange-500 py-2 px-3",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         "transition-transform ease-in-out active:scale-95",
         @class
@@ -410,7 +410,7 @@ defmodule PhxTalkWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "block w-full",
+          "block w-full shadow-xl",
           "#{if chatroom_input?, do: "rounded-b-lg border-t-0", else: "mt-1 rounded-lg"}",
           "text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 border-zinc-500",
           @errors == [] && "border-zinc-300 focus:border-zinc-400",
