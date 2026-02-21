@@ -2,7 +2,7 @@
 
 PhxTalk is a web chat application built with Elixir and Phoenix LiveView. Users can sign up to participate in various chatrooms, send messages, and interact in real time
 
-### Features
+## Features
 - [x] User Authentication
 - [x] Users can send messages through chatrooms
 - [x] Messages get updated on chatrooms
@@ -12,22 +12,22 @@ PhxTalk is a web chat application built with Elixir and Phoenix LiveView. Users 
   - [x] Delete
 - [ ] Create private chatrooms (Only allowed to selected users)
 
-### Instructions to run the project
+## Instructions to run the project
 
-#### 1) Set up you `.env` file
+### 1) Set up you `.env` file
 ```env
 POSTGRES_USER=
 POSTGRES_DB=
 POSTGRES_PASSWORD=
 ```
 
-#### 2) Create/Run Db
+### 2) Create/Run Db
 ```bash
 make up # docker compose up -d
 make down # docker compose down
 ```
 
-#### 3) Run Elixir App
+### 3) Run Elixir App
 ```elixir
 mix deps.get
 mix ecto.migrate
