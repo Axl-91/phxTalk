@@ -15,7 +15,7 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
 
     active_chat_room =
       ChatRooms.get_first_chat_room()
-      |> default_chatroom_if_nil()
+      |> create_default_chatroom_if_nil()
 
     chat_messages =
       active_chat_room.id
@@ -118,7 +118,7 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       ) do
     active_chat_room =
       ChatRooms.get_first_chat_room()
-      |> default_chatroom_if_nil()
+      |> create_default_chatroom_if_nil()
 
     chat_messages =
       active_chat_room.id
@@ -168,12 +168,12 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
     |> assign(:page_title, "Home")
   end
 
-  defp default_chatroom_if_nil(nil) do
+  defp create_default_chatroom_if_nil(nil) do
     {:ok, chat_room} =
       ChatRooms.create_chat_room(%{name: "Default", description: "This is the default chatroom"})
 
     chat_room
   end
 
-  defp default_chatroom_if_nil(chatroom), do: chatroom
+  defp create_default_chatroom_if_nil(chatroom), do: chatroom
 end
