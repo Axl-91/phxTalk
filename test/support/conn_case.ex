@@ -1,4 +1,4 @@
-defmodule PhxChatRoomWeb.ConnCase do
+defmodule PhxTalkWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule PhxChatRoomWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use PhxChatRoomWeb.ConnCase, async: true`, although
+  by setting `use PhxTalkWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -20,19 +20,19 @@ defmodule PhxChatRoomWeb.ConnCase do
   using do
     quote do
       # The default endpoint for testing
-      @endpoint PhxChatRoomWeb.Endpoint
+      @endpoint PhxTalkWeb.Endpoint
 
-      use PhxChatRoomWeb, :verified_routes
+      use PhxTalkWeb, :verified_routes
 
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import PhxChatRoomWeb.ConnCase
+      import PhxTalkWeb.ConnCase
     end
   end
 
   setup tags do
-    PhxChatRoom.DataCase.setup_sandbox(tags)
+    PhxTalk.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 
@@ -45,7 +45,7 @@ defmodule PhxChatRoomWeb.ConnCase do
   test context.
   """
   def register_and_log_in_user(%{conn: conn}) do
-    user = PhxChatRoom.AccountsFixtures.user_fixture()
+    user = PhxTalk.AccountsFixtures.user_fixture()
     %{conn: log_in_user(conn, user), user: user}
   end
 
@@ -55,7 +55,7 @@ defmodule PhxChatRoomWeb.ConnCase do
   It returns an updated `conn`.
   """
   def log_in_user(conn, user) do
-    token = PhxChatRoom.Accounts.generate_user_session_token(user)
+    token = PhxTalk.Accounts.generate_user_session_token(user)
 
     conn
     |> Phoenix.ConnTest.init_test_session(%{})

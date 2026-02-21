@@ -8,8 +8,8 @@ const path = require("path")
 module.exports = {
   content: [
     "./js/**/*.js",
-    "../lib/phx_chat_room_web.ex",
-    "../lib/phx_chat_room_web/**/*.*ex"
+    "../lib/phx_talk_web.ex",
+    "../lib/phx_talk_web/**/*.*ex"
   ],
   theme: {
     extend: {

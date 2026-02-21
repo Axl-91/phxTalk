@@ -1,9 +1,9 @@
-defmodule PhxChatRoom.MixProject do
+defmodule PhxTalk.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :phx_chat_room,
+      app: :phx_talk,
       version: "0.1.0",
       elixir: "~> 1.19.5",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule PhxChatRoom.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {PhxChatRoom.Application, []},
+      mod: {PhxTalk.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -77,10 +77,10 @@ defmodule PhxChatRoom.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind phx_chat_room", "esbuild phx_chat_room"],
+      "assets.build": ["tailwind phx_talk", "esbuild phx_talk"],
       "assets.deploy": [
-        "tailwind phx_chat_room --minify",
-        "esbuild phx_chat_room --minify",
+        "tailwind phx_talk --minify",
+        "esbuild phx_talk --minify",
         "phx.digest"
       ]
     ]

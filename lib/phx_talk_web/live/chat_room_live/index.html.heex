@@ -1,0 +1,36 @@
+<div class="flex flex-col mx-10 my-4 rounded-t-xl">
+  <PhxTalkWeb.ChatComponents.chat_header />
+
+  <div class="flex">
+    <PhxTalkWeb.ChatComponents.chat_rooms
+      chat_rooms={@chat_rooms}
+      active_chat_room={@active_chat_room}
+    />
+    <PhxTalkWeb.ChatComponents.chat_messages streams={@streams} />
+  </div>
+
+  <.live_component
+    module={PhxTalkWeb.ChatMessageLive.FormComponent}
+    id={:new}
+    title={@page_title}
+    action={@live_action}
+    current_user={@current_user}
+    active_chat_room={@active_chat_room}
+    patch={~p"/chat_room"}
+  />
+</div>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="chatroom-modal"
+  show
+  on_cancel={JS.patch(~p"/chat_room")}
+>
+  <.live_component
+    module={PhxTalkWeb.ChatRoomLive.FormComponent}
+    id={@live_action}
+    title={@page_title}
+    chat_room={@chat_room}
+    patch={~p"/chat_room"}
+  />
+</.modal>

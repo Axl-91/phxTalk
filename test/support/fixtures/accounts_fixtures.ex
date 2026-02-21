@@ -1,7 +1,7 @@
-defmodule PhxChatRoom.AccountsFixtures do
+defmodule PhxTalk.AccountsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `PhxChatRoom.Accounts` context.
+  entities via the `PhxTalk.Accounts` context.
   """
 
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
@@ -18,7 +18,7 @@ defmodule PhxChatRoom.AccountsFixtures do
     {:ok, user} =
       attrs
       |> valid_user_attributes()
-      |> PhxChatRoom.Accounts.register_user()
+      |> PhxTalk.Accounts.register_user()
 
     user
   end

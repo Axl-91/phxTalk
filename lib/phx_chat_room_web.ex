@@ -1,12 +1,12 @@
-defmodule PhxChatRoomWeb do
+defmodule PhxTalkWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, components, channels, and so on.
 
   This can be used in your application as:
 
-      use PhxChatRoomWeb, :controller
-      use PhxChatRoomWeb, :html
+      use PhxTalkWeb, :controller
+      use PhxTalkWeb, :html
 
   The definitions below will be executed for every controller,
   component, etc, so keep them short and clean, focused
@@ -40,10 +40,10 @@ defmodule PhxChatRoomWeb do
     quote do
       use Phoenix.Controller,
         formats: [:html, :json],
-        layouts: [html: PhxChatRoomWeb.Layouts]
+        layouts: [html: PhxTalkWeb.Layouts]
 
       import Plug.Conn
-      import PhxChatRoomWeb.Gettext
+      import PhxTalkWeb.Gettext
 
       unquote(verified_routes())
     end
@@ -52,7 +52,7 @@ defmodule PhxChatRoomWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {PhxChatRoomWeb.Layouts, :app}
+        layout: {PhxTalkWeb.Layouts, :app}
 
       unquote(html_helpers())
     end
@@ -84,8 +84,8 @@ defmodule PhxChatRoomWeb do
       # HTML escaping functionality
       import Phoenix.HTML
       # Core UI components and translation
-      import PhxChatRoomWeb.CoreComponents
-      import PhxChatRoomWeb.Gettext
+      import PhxTalkWeb.CoreComponents
+      import PhxTalkWeb.Gettext
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
@@ -98,9 +98,9 @@ defmodule PhxChatRoomWeb do
   def verified_routes do
     quote do
       use Phoenix.VerifiedRoutes,
-        endpoint: PhxChatRoomWeb.Endpoint,
-        router: PhxChatRoomWeb.Router,
-        statics: PhxChatRoomWeb.static_paths()
+        endpoint: PhxTalkWeb.Endpoint,
+        router: PhxTalkWeb.Router,
+        statics: PhxTalkWeb.static_paths()
     end
   end
 

@@ -1,4 +1,4 @@
-defmodule PhxChatRoom.Repo.Migrations.CreateChatRooms do
+defmodule PhxTalk.Repo.Migrations.CreateChatRooms do
   use Ecto.Migration
 
   def change do

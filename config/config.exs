@@ -7,19 +7,19 @@
 # General application configuration
 import Config
 
-config :phx_chat_room,
-  ecto_repos: [PhxChatRoom.Repo],
+config :phx_talk,
+  ecto_repos: [PhxTalk.Repo],
   generators: [timestamp_type: :utc_datetime, binary_id: true]
 
 # Configures the endpoint
-config :phx_chat_room, PhxChatRoomWeb.Endpoint,
+config :phx_talk, PhxTalkWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
-    formats: [html: PhxChatRoomWeb.ErrorHTML, json: PhxChatRoomWeb.ErrorJSON],
+    formats: [html: PhxTalkWeb.ErrorHTML, json: PhxTalkWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: PhxChatRoom.PubSub,
+  pubsub_server: PhxTalk.PubSub,
   live_view: [signing_salt: "Kafp/p0t"]
 
 # Configures the mailer
@@ -29,12 +29,12 @@ config :phx_chat_room, PhxChatRoomWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :phx_chat_room, PhxChatRoom.Mailer, adapter: Swoosh.Adapters.Local
+config :phx_talk, PhxTalk.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
   version: "0.17.11",
-  phx_chat_room: [
+  phx_talk: [
     args:
       ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
@@ -44,7 +44,7 @@ config :esbuild,
 # Configure tailwind (the version is required)
 config :tailwind,
   version: "3.4.0",
-  phx_chat_room: [
+  phx_talk: [
     args: ~w(
       --config=tailwind.config.js
       --input=css/app.css

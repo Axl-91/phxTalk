@@ -1,7 +1,7 @@
 import Config
 
 # Configure your database
-config :phx_chat_room, PhxChatRoom.Repo,
+config :phx_talk, PhxTalk.Repo,
   username: "root",
   password: "s1cr3t",
   hostname: "localhost",
@@ -16,7 +16,7 @@ config :phx_chat_room, PhxChatRoom.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :phx_chat_room, PhxChatRoomWeb.Endpoint,
+config :phx_talk, PhxTalkWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -25,8 +25,8 @@ config :phx_chat_room, PhxChatRoomWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "jRxqD29mVc0PpXB3JKf4Ef8hgWSwvP42EIvbmWgu4FmddQEZoAsEUxT91+By6xVt",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:phx_chat_room, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:phx_chat_room, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:phx_talk, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:phx_talk, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -53,17 +53,17 @@ config :phx_chat_room, PhxChatRoomWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :phx_chat_room, PhxChatRoomWeb.Endpoint,
+config :phx_talk, PhxTalkWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/phx_chat_room_web/(controllers|live|components)/.*(ex|heex)$"
+      ~r"lib/phx_talk_web/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :phx_chat_room, dev_routes: true
+config :phx_talk, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

@@ -1,7 +1,7 @@
-defmodule PhxChatRoom.ChatRoomsFixtures do
+defmodule PhxTalk.ChatRoomsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `PhxChatRoom.ChatRooms` context.
+  entities via the `PhxTalk.ChatRooms` context.
   """
 
   @doc """
@@ -14,7 +14,7 @@ defmodule PhxChatRoom.ChatRoomsFixtures do
         description: "some description",
         name: "some name"
       })
-      |> PhxChatRoom.ChatRooms.create_chat_room()
+      |> PhxTalk.ChatRooms.create_chat_room()
 
     chat_room
   end

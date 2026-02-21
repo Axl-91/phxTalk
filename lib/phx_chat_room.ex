@@ -1,6 +1,6 @@
-defmodule PhxChatRoom do
+defmodule PhxTalk do
   @moduledoc """
-  PhxChatRoom keeps the contexts that define your domain
+  PhxTalk keeps the contexts that define your domain
   and business logic.
 
   Contexts are also responsible for managing your data, regardless
