@@ -95,20 +95,26 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
 
   @impl true
   def handle_info(
-        %Broadcast{topic: "chat_room", event: "edit_chatroom"},
+        %Broadcast{topic: "chat_room", event: "edit_chatroom", payload: updated_chat_room},
         socket
       ) do
-    socket =
-      socket
-      |> assign(:chat_rooms, ChatRooms.list_chat_rooms())
+    chat_rooms =
+      socket.assigns.chat_rooms
+      |> Enum.map(fn chat_room ->
+        if chat_room.id == updated_chat_room.id do
+          updated_chat_room
+        else
+          chat_room
+        end
+      end)
 
-    {:noreply, socket}
+    {:noreply, socket |> assign(:chat_rooms, chat_rooms)}
   end
 
   @impl true
   def handle_info(
-        %Broadcast{topic: "chat_room", event: "delete_chatroom", payload: id},
-        %{assigns: %{active_chat_room: %{id: id}}} = socket
+        %Broadcast{topic: "chat_room", event: "delete_chatroom", payload: deleted_id},
+        %{assigns: %{active_chat_room: %{id: deleted_id}}} = socket
       ) do
     active_chat_room =
       ChatRooms.get_first_chat_room()
@@ -118,10 +124,14 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       active_chat_room.id
       |> ChatMessages.list_chat_messages_by_chat_room()
 
+    chat_rooms =
+      socket.assigns.chat_rooms
+      |> Enum.reject(fn chat_room -> chat_room.id == deleted_id end)
+
     socket =
       socket
       |> assign(:active_chat_room, active_chat_room)
-      |> assign(:chat_rooms, ChatRooms.list_chat_rooms())
+      |> assign(:chat_rooms, chat_rooms)
       |> stream(:chat_messages, chat_messages, reset: true)
 
     {:noreply, socket}
@@ -129,14 +139,14 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
 
   @impl true
   def handle_info(
-        %Broadcast{topic: "chat_room", event: "delete_chatroom"},
+        %Broadcast{topic: "chat_room", event: "delete_chatroom", payload: deleted_id},
         socket
       ) do
-    socket =
-      socket
-      |> assign(:chat_rooms, ChatRooms.list_chat_rooms())
+    chat_rooms =
+      socket.assigns.chat_rooms
+      |> Enum.reject(fn chat_room -> chat_room.id == deleted_id end)
 
-    {:noreply, socket}
+    {:noreply, socket |> assign(:chat_rooms, chat_rooms)}
   end
 
   defp apply_action(socket, :new, _params) do
