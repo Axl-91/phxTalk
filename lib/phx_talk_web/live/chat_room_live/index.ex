@@ -13,13 +13,9 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       PhxTalkWeb.Endpoint.subscribe("chat_room")
     end
 
-    active_chat_room =
-      ChatRooms.get_first_chat_room()
-      |> create_default_chatroom_if_nil()
+    active_chat_room = ChatRooms.get_first_chat_room()
 
-    chat_messages =
-      active_chat_room.id
-      |> ChatMessages.list_chat_messages_by_chat_room()
+    chat_messages = get_chat_messages(active_chat_room)
 
     socket =
       socket
@@ -83,12 +79,20 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
 
   @impl true
   def handle_info(
-        %Broadcast{topic: "chat_room", event: "new_chatroom", payload: chatroom},
-        socket
+        %Broadcast{topic: "chat_room", event: "new_chatroom", payload: new_chat_room},
+        %{assigns: %{active_chat_room: active_chat_room, chat_rooms: chat_rooms}} = socket
       ) do
     socket =
       socket
-      |> assign(:chat_rooms, socket.assigns.chat_rooms ++ [chatroom])
+      |> assign(:chat_rooms, chat_rooms ++ [new_chat_room])
+      |> assign(
+        :active_chat_room,
+        if !active_chat_room do
+          new_chat_room
+        else
+          active_chat_room
+        end
+      )
 
     {:noreply, socket}
   end
@@ -116,13 +120,9 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
         %Broadcast{topic: "chat_room", event: "delete_chatroom", payload: deleted_id},
         %{assigns: %{active_chat_room: %{id: deleted_id}}} = socket
       ) do
-    active_chat_room =
-      ChatRooms.get_first_chat_room()
-      |> create_default_chatroom_if_nil()
+    active_chat_room = ChatRooms.get_first_chat_room()
 
-    chat_messages =
-      active_chat_room.id
-      |> ChatMessages.list_chat_messages_by_chat_room()
+    chat_messages = get_chat_messages(active_chat_room)
 
     chat_rooms =
       socket.assigns.chat_rooms
@@ -168,12 +168,10 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
     |> assign(:page_title, "Home")
   end
 
-  defp create_default_chatroom_if_nil(nil) do
-    {:ok, chat_room} =
-      ChatRooms.create_chat_room(%{name: "Default", description: "This is the default chatroom"})
+  defp get_chat_messages(nil), do: []
 
-    chat_room
+  defp get_chat_messages(active_chat_room) do
+    active_chat_room.id
+    |> ChatMessages.list_chat_messages_by_chat_room()
   end
-
-  defp create_default_chatroom_if_nil(chatroom), do: chatroom
 end

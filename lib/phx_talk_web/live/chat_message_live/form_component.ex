@@ -13,12 +13,15 @@ defmodule PhxTalkWeb.ChatMessageLive.FormComponent do
           field={@form[:message]}
           type="text"
           value=""
+          disabled={!assigns.active_chat_room}
           placeholder="Write a message..."
           phx-change="validate"
           phx-hook="updateText"
         />
         <:actions>
-          <.button phx-disable-with="Saving...">Send</.button>
+          <.button disabled={!assigns.active_chat_room} phx-disable-with="Saving...">
+            Send
+          </.button>
         </:actions>
       </.chat_form>
     </div>

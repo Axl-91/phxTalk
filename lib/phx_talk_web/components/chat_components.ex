@@ -53,9 +53,11 @@ defmodule PhxTalkWeb.ChatComponents do
       class="tabcontent w-5/6 border-2 border-l-0 border-orange-600 block float-left overflow-y-scroll h-[600px]"
       phx-hook="updateTable"
     >
-      <div class="bg-zinc-200 py-1 px-2 border-b-2 border-zinc-500">
-        <strong>Description:</strong> {@active_chat_room.description}
-      </div>
+      <%= if @active_chat_room do %>
+        <div class="bg-zinc-200 py-1 px-2 border-b-2 border-zinc-500">
+          <strong>Description:</strong> {@active_chat_room.description}
+        </div>
+      <% end %>
       <div class="chat_room_table shadow-lg">
         <table>
           <tbody id="chat_messages" phx-update="stream">
