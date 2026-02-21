@@ -59,7 +59,9 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
 
   def handle_event("save", %{"chat_room" => chatroom_params}, socket) do
     case ChatRooms.create_chat_room(chatroom_params) do
-      {:ok, _chatroom} ->
+      {:ok, chatroom} ->
+        PhxTalkWeb.Endpoint.broadcast("chat_room", "new_chatroom", chatroom)
+
         {:noreply,
          socket
          |> put_flash(:info, "ChatRoom created successfully")
@@ -74,7 +76,9 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
     chat_room = ChatRooms.get_chat_room!(socket.assigns.chat_room.id)
 
     case ChatRooms.update_chat_room(chat_room, chatroom_params) do
-      {:ok, _chatroom} ->
+      {:ok, chatroom} ->
+        PhxTalkWeb.Endpoint.broadcast("chat_room", "edit_chatroom", chatroom)
+
         {:noreply,
          socket
          |> put_flash(:info, "ChatRoom edited successfully")
