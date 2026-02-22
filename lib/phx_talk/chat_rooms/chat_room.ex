@@ -9,15 +9,18 @@ defmodule PhxTalk.ChatRooms.ChatRoom do
     field :name, :string
     field :description, :string
 
+    belongs_to :user, PhxTalk.Accounts.User
     has_many :chat_messages, PhxTalk.ChatMessages.ChatMessage
 
     timestamps(type: :utc_datetime)
   end
 
+  @schema_attrs [:name, :description, :user_id]
+
   @doc false
   def changeset(chat_room, attrs) do
     chat_room
-    |> cast(attrs, [:name, :description])
-    |> validate_required([:name, :description])
+    |> cast(attrs, @schema_attrs)
+    |> validate_required(@schema_attrs)
   end
 end

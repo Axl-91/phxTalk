@@ -7,12 +7,13 @@ defmodule PhxTalk.ChatRoomsFixtures do
   @doc """
   Generate a chat_room.
   """
-  def chat_room_fixture(attrs \\ %{}) do
+  def chat_room_fixture(attrs \\ %{}, user) do
     {:ok, chat_room} =
       attrs
       |> Enum.into(%{
         description: "some description",
-        name: "some name"
+        name: "some name",
+        user_id: user.id
       })
       |> PhxTalk.ChatRooms.create_chat_room()
 
