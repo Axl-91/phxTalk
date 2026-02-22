@@ -51,13 +51,23 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"chat_room" => chatroom_params}, socket) do
-    changeset = ChatRooms.change_chat_room(socket.assigns.chat_room, chatroom_params)
+  def handle_event(
+        "validate",
+        %{"chat_room" => chatroom_params},
+        %{assigns: %{chat_room: chat_room}} = socket
+      ) do
+    changeset = ChatRooms.change_chat_room(chat_room, chatroom_params)
 
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 
-  def handle_event("save", %{"chat_room" => chatroom_params}, socket) do
+  def handle_event(
+        "save",
+        %{"chat_room" => chatroom_params},
+        %{assigns: %{current_user: current_user}} = socket
+      ) do
+    chatroom_params = Map.put(chatroom_params, "user_id", current_user.id)
+
     case ChatRooms.create_chat_room(chatroom_params) do
       {:ok, chatroom} ->
         PhxTalkWeb.Endpoint.broadcast("chat_room", "new_chatroom", chatroom)

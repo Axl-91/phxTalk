@@ -29,17 +29,19 @@ defmodule PhxTalkWeb.ChatComponents do
           phx-value-id={chat_room.id}
         >
           {chat_room.name}
-          <div class="flex items-center space-x-2">
-            <.link patch={~p"/chat_room/edit/#{chat_room.id}"}>
-              <i class="fas fa-edit text-violet-700 cursor-pointer"></i>
-            </.link>
-            <i
-              class="fas fa-trash-alt text-red-700 cursor-pointer"
-              phx-click="delete_chatroom"
-              phx-value-id={chat_room.id}
-            >
-            </i>
-          </div>
+          <%= if chat_room.user_id == @current_user.id do %>
+            <div class="flex items-center space-x-2">
+              <.link patch={~p"/chat_room/edit/#{chat_room.id}"}>
+                <i class="fas fa-edit text-violet-700 cursor-pointer"></i>
+              </.link>
+              <i
+                class="fas fa-trash-alt text-red-700 cursor-pointer"
+                phx-click="delete_chatroom"
+                phx-value-id={chat_room.id}
+              >
+              </i>
+            </div>
+          <% end %>
         </button>
       <% end %>
     </div>
