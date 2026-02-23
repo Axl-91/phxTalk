@@ -56,8 +56,9 @@ defmodule PhxTalkWeb.ChatComponents do
       phx-hook="updateTable"
     >
       <%= if @active_chat_room do %>
-        <div class="bg-zinc-200 py-1 px-2 border-b-2 border-zinc-500">
-          <strong>Description:</strong> {@active_chat_room.description}
+        <div class="bg-zinc-200 py-1 px-1 border-b-2 border-zinc-500">
+          <b class="text-orange-800 tracking-tight">Description:</b>
+          <i>{@active_chat_room.description}</i>
         </div>
       <% end %>
       <div class="chat_room_table shadow-lg">
@@ -67,7 +68,7 @@ defmodule PhxTalkWeb.ChatComponents do
               <td class="border-t hover:bg-gray-200 flex justify-between">
                 <div>
                   <b class="text-blue-500">{chat_message.user.email}:</b>
-                  <i class="text-gray-700 text-sm">{chat_message.message}</i>
+                  <i class="text-gray-800 text-sm">{chat_message.message}</i>
                 </div>
                 <div class="text-gray-500 text-xs">
                   {get_time_chat(chat_message)}
