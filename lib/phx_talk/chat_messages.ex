@@ -37,9 +37,11 @@ defmodule PhxTalk.ChatMessages do
     q =
       from cm in ChatMessage,
         where: cm.chat_room_id == ^chat_room_id,
-        preload: :user
+        order_by: [desc: cm.inserted_at],
+        preload: :user,
+        limit: 25
 
-    Repo.all(q)
+    Repo.all(q) |> Enum.sort_by(fn cm -> cm.inserted_at end)
   end
 
   @doc """
