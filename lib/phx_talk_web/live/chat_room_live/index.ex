@@ -7,6 +7,8 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
   alias PhxTalk.ChatRooms
   alias Phoenix.Socket.Broadcast
 
+  @max_messages 25
+
   @impl true
   def mount(_params, _session, socket) do
     if connected?(socket) do
@@ -34,7 +36,7 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
   @impl true
   def handle_event("change_chatroom", %{"id" => chat_room_id}, socket) do
     new_active_chat_room = ChatRooms.get_chat_room!(chat_room_id)
-    new_chat_messages = ChatMessages.list_chat_messages_by_chat_room(chat_room_id)
+    new_chat_messages = get_chat_messages(new_active_chat_room)
 
     socket =
       socket
@@ -56,6 +58,25 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
   end
 
   @impl true
+  def handle_event("scroll_top", _, %{assigns: assigns} = socket) do
+    {chat_room, inserts} =
+      {assigns.active_chat_room, assigns.streams.chat_messages.inserts}
+
+    offset = @max_messages + Enum.count(inserts)
+
+    # Reverse needs to be used to add correctly to stream
+    chat_messages =
+      get_chat_messages(chat_room, offset)
+      |> Enum.reverse()
+
+    socket =
+      socket
+      |> stream(:chat_messages, chat_messages, at: 0)
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_info(
         %Broadcast{
           topic: "chat_room",
@@ -66,7 +87,7 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       ) do
     socket =
       socket
-      |> stream_insert(:chat_messages, message, limit: -25)
+      |> stream_insert(:chat_messages, message)
       |> push_event("scroll-down", %{})
 
     {:noreply, socket}
@@ -168,10 +189,12 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
     |> assign(:page_title, "Home")
   end
 
-  defp get_chat_messages(nil), do: []
+  defp get_chat_messages(acive_chat_room, offset \\ 0)
 
-  defp get_chat_messages(active_chat_room) do
+  defp get_chat_messages(nil, _), do: []
+
+  defp get_chat_messages(active_chat_room, offset) do
     active_chat_room.id
-    |> ChatMessages.list_chat_messages_by_chat_room()
+    |> ChatMessages.list_chat_messages_by_chat_room(@max_messages, offset)
   end
 end
