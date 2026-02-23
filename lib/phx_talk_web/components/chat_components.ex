@@ -84,7 +84,12 @@ defmodule PhxTalkWeb.ChatComponents do
 
   defp get_time_chat(chat_message) do
     inserted_at = chat_message.inserted_at
+    today = Date.utc_today()
 
-    "#{inserted_at.hour}:#{inserted_at.minute}"
+    if NaiveDateTime.to_date(inserted_at) == today do
+      "#{Calendar.strftime(inserted_at, "%H:%m")}"
+    else
+      "#{Calendar.strftime(inserted_at, "%d/%m/%Y %H:%m")}"
+    end
   end
 end
