@@ -20,7 +20,7 @@ defmodule PhxTalk.ChatMessages do
 
   """
   def list_chat_messages do
-    Repo.all(ChatMessage)
+    Repo.all(from m in ChatMessage, order_by: [asc: m.inserted_at])
   end
 
   @doc """

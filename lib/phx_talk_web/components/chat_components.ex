@@ -64,9 +64,14 @@ defmodule PhxTalkWeb.ChatComponents do
         <table>
           <tbody id="chat_messages" phx-update="stream">
             <tr :for={{id, chat_message} <- @streams.chat_messages} id={id}>
-              <td class="border-t hover:bg-gray-200">
-                <b class="text-blue-500">{chat_message.user.email}:</b>
-                <i class="text-gray-700 text-sm">{chat_message.message}</i>
+              <td class="border-t hover:bg-gray-200 flex justify-between">
+                <div>
+                  <b class="text-blue-500">{chat_message.user.email}:</b>
+                  <i class="text-gray-700 text-sm">{chat_message.message}</i>
+                </div>
+                <div class="text-gray-500 text-xs">
+                  {get_time_chat(chat_message)}
+                </div>
               </td>
             </tr>
           </tbody>
@@ -74,5 +79,11 @@ defmodule PhxTalkWeb.ChatComponents do
       </div>
     </div>
     """
+  end
+
+  defp get_time_chat(chat_message) do
+    inserted_at = chat_message.inserted_at
+
+    "#{inserted_at.hour}:#{inserted_at.minute}"
   end
 end
