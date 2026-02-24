@@ -69,8 +69,6 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       get_chat_messages(chat_room, messages_shown)
       |> Enum.reverse()
 
-    chat_messages |> Enum.map(fn a -> a.message end) |> IO.inspect()
-
     socket =
       socket
       |> stream(:chat_messages, chat_messages, at: 0)
