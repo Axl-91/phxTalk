@@ -361,7 +361,7 @@ defmodule PhxTalkWeb.CoreComponents do
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <div phx-feedback-for={@name}>
+    <div phx-feedback-for={@name} class={if @rest.hidden == true, do: "", else: "hidden"}>
       <.label for={@id}>{@label}</.label>
       <select
         id={@id}

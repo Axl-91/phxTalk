@@ -2,6 +2,7 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
   use PhxTalkWeb, :live_component
 
   alias PhxTalk.ChatRooms
+  alias PhxTalk.Accounts
 
   @impl true
   def render(assigns) do
@@ -27,6 +28,14 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="text" label="Description" />
         <.input field={@form[:private]} type="checkbox" label="Private" />
+        <.input
+          field={@form[:users_id]}
+          type="select"
+          options={Accounts.list_users()}
+          label="Select Users"
+          hidden={@form[:private].value}
+          multiple
+        />
         <:actions>
           <.button phx-disable-with="Saving...">
             {if @id == :new do
