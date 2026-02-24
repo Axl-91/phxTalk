@@ -17,7 +17,7 @@ defmodule PhxTalk.ChatRooms.ChatRoom do
     timestamps(type: :utc_datetime)
   end
 
-  @schema_attrs [:name, :description, :user_id]
+  @schema_attrs [:name, :description, :private, :user_id]
 
   @doc false
   def changeset(chat_room, attrs) do

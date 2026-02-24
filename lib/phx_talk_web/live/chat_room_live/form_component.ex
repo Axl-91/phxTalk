@@ -26,6 +26,7 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:private]} type="checkbox" label="Private" />
         <:actions>
           <.button phx-disable-with="Saving...">
             {if @id == :new do
