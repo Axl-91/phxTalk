@@ -13,6 +13,7 @@ defmodule PhxTalk.Accounts.User do
     field :confirmed_at, :utc_datetime
 
     has_many :chat_messages, PhxTalk.ChatMessages.ChatMessage
+    many_to_many :chat_rooms, PhxTalk.ChatRooms.ChatRoom, join_through: "chat_room_users"
 
     timestamps(type: :utc_datetime)
   end
