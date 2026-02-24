@@ -45,15 +45,6 @@ defmodule PhxTalk.ChatMessages do
     Repo.all(q) |> Enum.sort_by(fn cm -> cm.inserted_at end)
   end
 
-  def list_chat_messages_by_chat_room_test(chat_room_id) do
-    q =
-      from cm in ChatMessage,
-        where: cm.chat_room_id == ^chat_room_id,
-        order_by: [desc: cm.inserted_at]
-
-    Repo.all(q) |> Enum.sort_by(fn cm -> cm.inserted_at end)
-  end
-
   @doc """
   Gets a single chat_message.
 
