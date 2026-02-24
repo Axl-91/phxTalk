@@ -37,7 +37,10 @@ Hooks.updateTable = {
     this.el.addEventListener('scroll', () => {
       const scrollTop = this.el.scrollTop;
       if (scrollTop === 0) {
-        this.pushEvent('scroll_top', {})
+        if (this.timeout) { clearTimeout(this.timeout) }
+        this.timeout = setTimeout(() => {
+          this.pushEvent('scroll_top', {})
+        }, 1000)
       }
     })
 

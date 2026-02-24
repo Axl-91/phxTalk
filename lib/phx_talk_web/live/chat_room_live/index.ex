@@ -23,6 +23,7 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       socket
       |> assign(:active_chat_room, active_chat_room)
       |> assign(:chat_rooms, ChatRooms.list_chat_rooms())
+      |> assign(:messages_shown, Enum.count(chat_messages))
       |> stream(:chat_messages, chat_messages)
 
     {:ok, socket}
@@ -42,6 +43,7 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       socket
       |> assign(:active_chat_room, new_active_chat_room)
       |> stream(:chat_messages, new_chat_messages, reset: true)
+      |> assign(:messages_shown, Enum.count(new_chat_messages))
       |> push_event("scroll-down", %{})
 
     {:noreply, socket}
@@ -59,19 +61,20 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
 
   @impl true
   def handle_event("scroll_top", _, %{assigns: assigns} = socket) do
-    {chat_room, inserts} =
-      {assigns.active_chat_room, assigns.streams.chat_messages.inserts}
-
-    offset = @max_messages + Enum.count(inserts)
+    {chat_room, messages_shown} =
+      {assigns.active_chat_room, assigns.messages_shown}
 
     # Reverse needs to be used to add correctly to stream
     chat_messages =
-      get_chat_messages(chat_room, offset)
+      get_chat_messages(chat_room, messages_shown)
       |> Enum.reverse()
+
+    chat_messages |> Enum.map(fn a -> a.message end) |> IO.inspect()
 
     socket =
       socket
       |> stream(:chat_messages, chat_messages, at: 0)
+      |> assign(:messages_shown, Enum.count(chat_messages) + messages_shown)
 
     {:noreply, socket}
   end
@@ -88,6 +91,7 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
     socket =
       socket
       |> stream_insert(:chat_messages, message)
+      |> assign(:messages_shown, socket.assigns.messages_shown + 1)
       |> push_event("scroll-down", %{})
 
     {:noreply, socket}
@@ -154,6 +158,7 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       |> assign(:active_chat_room, active_chat_room)
       |> assign(:chat_rooms, chat_rooms)
       |> stream(:chat_messages, chat_messages, reset: true)
+      |> assign(:messages_shown, Enum.count(chat_messages))
 
     {:noreply, socket}
   end
