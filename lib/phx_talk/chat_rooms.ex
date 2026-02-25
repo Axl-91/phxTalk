@@ -18,7 +18,7 @@ defmodule PhxTalk.ChatRooms do
 
   """
   def list_chat_rooms do
-    Repo.all(from c in ChatRoom, order_by: [asc: c.inserted_at])
+    Repo.all(from c in ChatRoom, order_by: [asc: c.inserted_at], preload: :users)
   end
 
   @doc """

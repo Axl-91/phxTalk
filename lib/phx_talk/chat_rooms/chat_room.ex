@@ -23,6 +23,7 @@ defmodule PhxTalk.ChatRooms.ChatRoom do
   def changeset(chat_room, attrs) do
     chat_room
     |> cast(attrs, @schema_attrs)
-    |> validate_required(@schema_attrs)
+    |> validate_required([:name, :description, :private])
+    |> put_assoc(:users, attrs["users"] || [])
   end
 end

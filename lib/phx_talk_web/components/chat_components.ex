@@ -30,7 +30,7 @@ defmodule PhxTalkWeb.ChatComponents do
         </div>
         <div class="h-1/2 tracking-tighter overflow-y-auto">
           <h1 class="font-bold bg-orange-500 px-1">Private:</h1>
-          <%= for chat_room <- private(@chat_rooms) do %>
+          <%= for chat_room <- private(@current_user, @chat_rooms) do %>
             <% assigns = assign(assigns, :chat_room, chat_room) %>
             {show_chat_rooms(assigns)}
           <% end %>
@@ -102,7 +102,12 @@ defmodule PhxTalkWeb.ChatComponents do
   end
 
   defp public(chat_rooms), do: Enum.filter(chat_rooms, fn cr -> not cr.private end)
-  defp private(chat_rooms), do: Enum.filter(chat_rooms, fn cr -> cr.private end)
+
+  defp private(user, chat_rooms) do
+    Enum.filter(chat_rooms, fn cr ->
+      cr.private and Enum.any?(cr.users, fn u -> u.id == user.id end)
+    end)
+  end
 
   defp get_time_chat(chat_message) do
     inserted_at =
@@ -110,8 +115,7 @@ defmodule PhxTalkWeb.ChatComponents do
       |> DateTime.shift_zone!("America/Argentina/Buenos_Aires")
 
     today =
-      DateTime.utc_now()
-      |> DateTime.shift_zone!("America/Argentina/Buenos_Aires")
+      DateTime.now!("America/Argentina/Buenos_Aires")
       |> NaiveDateTime.to_date()
 
     if NaiveDateTime.to_date(inserted_at) == today do
