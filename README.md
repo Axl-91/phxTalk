@@ -3,14 +3,9 @@
 PhxTalk is a web chat application built with Elixir and Phoenix LiveView. Users can sign up to participate in various chatrooms, send messages, and interact in real time
 
 ## Features
-- [x] User Authentication
-- [x] Users can send messages through chatrooms
-- [x] Messages get updated on chatrooms
-- [x] ChatRooms
-  - [x] Create 
-  - [x] Edit
-  - [x] Delete
-- [ ] Create private chatrooms (Only allowed to selected users)
+- [x] Create/edit for Accounts
+- [x] Create/edit/remove for ChatRooms
+- [x] Private ChatRooms
 
 ## Instructions to run the project
 
