@@ -105,13 +105,19 @@ defmodule PhxTalkWeb.ChatComponents do
   defp private(chat_rooms), do: Enum.filter(chat_rooms, fn cr -> cr.private end)
 
   defp get_time_chat(chat_message) do
-    inserted_at = chat_message.inserted_at
-    today = Date.utc_today()
+    inserted_at =
+      chat_message.inserted_at
+      |> DateTime.shift_zone!("America/Argentina/Buenos_Aires")
+
+    today =
+      DateTime.utc_now()
+      |> DateTime.shift_zone!("America/Argentina/Buenos_Aires")
+      |> NaiveDateTime.to_date()
 
     if NaiveDateTime.to_date(inserted_at) == today do
-      "#{Calendar.strftime(inserted_at, "%H:%m")}"
+      "#{Calendar.strftime(inserted_at, "%H:%M")}"
     else
-      "#{Calendar.strftime(inserted_at, "%d/%m/%Y %H:%m")}"
+      "#{Calendar.strftime(inserted_at, "%d/%m/%Y %H:%M")}"
     end
   end
 end
