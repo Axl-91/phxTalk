@@ -19,32 +19,51 @@ defmodule PhxTalkWeb.ChatComponents do
 
   def chat_rooms(assigns) do
     ~H"""
-    <div class="overflow-y-auto float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-1/6 h-[600px]">
-      <%= for chat_room <- @chat_rooms do %>
-        <% button_color =
-          if chat_room.id == @active_chat_room.id, do: "bg-gray-400", else: "hover:bg-gray-300" %>
-        <button
-          class={"tab-button font-italic #{button_color} transition-colors duration-200 ease-in-out"}
-          phx-click="change_chatroom"
-          phx-value-id={chat_room.id}
-        >
-          {chat_room.name}
-          <%= if chat_room.user_id == @current_user.id do %>
-            <div class="flex items-center space-x-2">
-              <.link patch={~p"/chat_room/edit/#{chat_room.id}"}>
-                <i class="fas fa-edit text-violet-700 cursor-pointer"></i>
-              </.link>
-              <i
-                class="fas fa-trash-alt text-red-700 cursor-pointer"
-                phx-click="delete_chatroom"
-                phx-value-id={chat_room.id}
-              >
-              </i>
-            </div>
+    <div class="float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-1/6 h-[600px]">
+      <div class="flex flex-col h-full">
+        <div class="h-1/2 overflow-y-auto">
+          <h1 class="font-bold tracking-tighter bg-orange-500 px-1">Public:</h1>
+          <%= for chat_room <- public(@chat_rooms) do %>
+            <% assigns = assign(assigns, :chat_room, chat_room) %>
+            {show_chat_rooms(assigns)}
           <% end %>
-        </button>
-      <% end %>
+        </div>
+        <div class="h-1/2 tracking-tighter overflow-y-auto">
+          <h1 class="font-bold bg-orange-500 px-1">Private:</h1>
+          <%= for chat_room <- private(@current_user, @chat_rooms) do %>
+            <% assigns = assign(assigns, :chat_room, chat_room) %>
+            {show_chat_rooms(assigns)}
+          <% end %>
+        </div>
+      </div>
     </div>
+    """
+  end
+
+  defp show_chat_rooms(assigns) do
+    ~H"""
+    <% button_color =
+      if @chat_room.id == @active_chat_room.id, do: "bg-gray-400", else: "hover:bg-gray-300" %>
+    <button
+      class={"tab-button font-italic #{button_color} transition-colors duration-200 ease-in-out"}
+      phx-click="change_chatroom"
+      phx-value-id={@chat_room.id}
+    >
+      {@chat_room.name}
+      <%= if @chat_room.user_id == @current_user.id do %>
+        <div class="flex items-center space-x-2">
+          <.link patch={~p"/chat_room/edit/#{@chat_room.id}"}>
+            <i class="fas fa-edit text-violet-700 cursor-pointer"></i>
+          </.link>
+          <i
+            class="fas fa-trash-alt text-red-700 cursor-pointer"
+            phx-click="delete_chatroom"
+            phx-value-id={@chat_room.id}
+          >
+          </i>
+        </div>
+      <% end %>
+    </button>
     """
   end
 
@@ -82,14 +101,21 @@ defmodule PhxTalkWeb.ChatComponents do
     """
   end
 
+  defp public(chat_rooms), do: Enum.filter(chat_rooms, fn cr -> not cr.private end)
+
+  defp private(user, chat_rooms) do
+    Enum.filter(chat_rooms, fn cr ->
+      cr.private and Enum.any?(cr.users, fn u -> u.id == user.id end)
+    end)
+  end
+
   defp get_time_chat(chat_message) do
     inserted_at =
       chat_message.inserted_at
       |> DateTime.shift_zone!("America/Argentina/Buenos_Aires")
 
     today =
-      DateTime.utc_now()
-      |> DateTime.shift_zone!("America/Argentina/Buenos_Aires")
+      DateTime.now!("America/Argentina/Buenos_Aires")
       |> NaiveDateTime.to_date()
 
     if NaiveDateTime.to_date(inserted_at) == today do

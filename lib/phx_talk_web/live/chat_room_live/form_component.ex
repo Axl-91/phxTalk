@@ -2,6 +2,7 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
   use PhxTalkWeb, :live_component
 
   alias PhxTalk.ChatRooms
+  alias PhxTalk.Accounts
 
   @impl true
   def render(assigns) do
@@ -26,6 +27,15 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
       >
         <.input field={@form[:name]} type="text" label="Name" />
         <.input field={@form[:description]} type="text" label="Description" />
+        <.input field={@form[:private]} type="checkbox" label="Private" />
+        <.input
+          field={@form[:emails]}
+          type="select"
+          options={Enum.reject(Accounts.list_users(), fn email -> email == @current_user.email end)}
+          label="Select Users"
+          hidden={@form[:private].value}
+          multiple
+        />
         <:actions>
           <.button phx-disable-with="Saving...">
             {if @id == :new do
@@ -66,7 +76,14 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
         %{"chat_room" => chatroom_params},
         %{assigns: %{current_user: current_user}} = socket
       ) do
-    chatroom_params = Map.put(chatroom_params, "user_id", current_user.id)
+    users =
+      [current_user] ++
+        Enum.map(chatroom_params["emails"] || [], fn e -> Accounts.get_user_by_email(e) end)
+
+    chatroom_params =
+      chatroom_params
+      |> Map.put("user_id", current_user.id)
+      |> Map.put("users", users)
 
     case ChatRooms.create_chat_room(chatroom_params) do
       {:ok, chatroom} ->

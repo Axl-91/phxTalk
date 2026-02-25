@@ -60,7 +60,8 @@ defmodule PhxTalk.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.2"},
-      {:lazy_html, ">= 0.1.0", only: :test}
+      {:lazy_html, ">= 0.1.0", only: :test},
+      {:tzdata, "~> 1.1"}
     ]
   end
 

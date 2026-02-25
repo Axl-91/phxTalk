@@ -22,7 +22,11 @@ defmodule PhxTalk.ChatRoomsTest do
       user = user_fixture()
       chat_room = chat_room_fixture(user)
 
-      assert ChatRooms.get_chat_room!(chat_room.id) == chat_room
+      expected_chat_room =
+        ChatRooms.get_chat_room!(chat_room.id)
+        |> Repo.preload(:users)
+
+      assert expected_chat_room == chat_room
     end
 
     test "create_chat_room/1 with valid data creates a chat_room" do
@@ -52,8 +56,12 @@ defmodule PhxTalk.ChatRoomsTest do
       user = user_fixture()
       chat_room = chat_room_fixture(user)
 
+      expected_chat_room =
+        ChatRooms.get_chat_room!(chat_room.id)
+        |> Repo.preload(:users)
+
       assert {:error, %Ecto.Changeset{}} = ChatRooms.update_chat_room(chat_room, @invalid_attrs)
-      assert chat_room == ChatRooms.get_chat_room!(chat_room.id)
+      assert chat_room == expected_chat_room
     end
 
     test "delete_chat_room/1 deletes the chat_room" do
