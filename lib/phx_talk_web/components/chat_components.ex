@@ -58,7 +58,7 @@ defmodule PhxTalkWeb.ChatComponents do
     <% button_color =
       if @chat_room.id == @active_chat_room.id, do: "bg-gray-400", else: "hover:bg-gray-300" %>
     <button
-      class={"tab-button font-italic #{button_color} transition-colors duration-200 ease-in-out"}
+      class={"flex w-full justify-between items-center overflow-y-scroll p-2 font-italic #{button_color} transition duration-500"}
       phx-click="change_chatroom"
       phx-value-id={@chat_room.id}
     >
@@ -66,10 +66,11 @@ defmodule PhxTalkWeb.ChatComponents do
       <%= if @chat_room.user_id == @current_user.id do %>
         <div class="flex items-center space-x-2">
           <.link patch={~p"/chat_room/edit/#{@chat_room.id}"}>
-            <i class="fas fa-edit text-violet-700 cursor-pointer"></i>
+            <i class="fas fa-edit text-violet-700 cursor-pointer transition-transform duration-300 hover:scale-125">
+            </i>
           </.link>
           <i
-            class="fas fa-trash-alt text-red-700 cursor-pointer"
+            class="fas fa-trash-alt text-red-700 cursor-pointer transition-transform duration-300 hover:scale-125"
             phx-click="delete_chatroom"
             phx-value-id={@chat_room.id}
           >
@@ -93,11 +94,11 @@ defmodule PhxTalkWeb.ChatComponents do
           <i>{@active_chat_room.description}</i>
         </div>
       <% end %>
-      <div class="chat_room_table shadow-lg">
-        <table>
+      <div class="shadow-lg overflow-y-auto">
+        <table class="w-full border-spacing-1">
           <tbody id="chat_messages" phx-update="stream">
             <tr :for={{id, chat_message} <- @streams.chat_messages} id={id}>
-              <td class="border-t hover:bg-gray-200 flex justify-between">
+              <td class="px-2 py-1 border-t hover:bg-gray-200 flex justify-between">
                 <div>
                   <% user_color = get_user_color(@current_user.email, chat_message.user.email) %>
                   <b class={user_color}>{chat_message.user.email}:</b>
