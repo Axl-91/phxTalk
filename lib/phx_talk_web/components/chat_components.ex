@@ -6,6 +6,19 @@ defmodule PhxTalkWeb.ChatComponents do
     endpoint: PhxTalkWeb.Endpoint,
     router: PhxTalkWeb.Router
 
+  @color_palette [
+    "text-red-500",
+    "text-green-500",
+    "text-orange-500",
+    "text-lime-500",
+    "text-teal-500",
+    "text-yellow-500",
+    "text-purple-500",
+    "text-indigo-500",
+    "text-mauve-500",
+    "text-pink-500"
+  ]
+
   def chat_header(assigns) do
     ~H"""
     <div class="flex text-white justify-between items-center py-2 px-4 bg-gradient-to-r from-orange-700 to-orange-500 rounded-t-xl shadow-lg">
@@ -102,25 +115,11 @@ defmodule PhxTalkWeb.ChatComponents do
     """
   end
 
-  defp color_palette() do
-    [
-      "text-red-500",
-      "text-green-500",
-      "text-lime-500",
-      "text-yellow-500",
-      "text-purple-500",
-      "text-indigo-500",
-      "text-mauve-500",
-      "text-pink-500"
-    ]
-  end
-
   defp get_user_color(email, email), do: "text-blue-500"
 
   defp get_user_color(_, email) do
-    color_palette = color_palette()
-    index = :erlang.phash2(email, length(color_palette))
-    Enum.at(color_palette, index)
+    index = :erlang.phash2(email, length(@color_palette))
+    Enum.at(@color_palette, index)
   end
 
   defp public(chat_rooms), do: Enum.filter(chat_rooms, fn cr -> not cr.private end)
