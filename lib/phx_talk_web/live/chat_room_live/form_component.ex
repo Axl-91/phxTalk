@@ -52,11 +52,20 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
 
   @impl true
   def update(%{chat_room: chat_room} = assigns, socket) do
+    emails = if assigns[:id] == :new, do: [], else: Enum.map(chat_room.users, fn u -> u.email end)
+
+    form_params = %{
+      "name" => chat_room.name,
+      "description" => chat_room.description,
+      "private" => chat_room.private,
+      "emails" => emails
+    }
+
     {:ok,
      socket
      |> assign(assigns)
      |> assign_new(:form, fn ->
-       to_form(ChatRooms.change_chat_room(chat_room))
+       to_form(form_params, as: :chat_room)
      end)}
   end
 
@@ -64,11 +73,36 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
   def handle_event(
         "validate",
         %{"chat_room" => chatroom_params},
-        %{assigns: %{chat_room: chat_room}} = socket
+        socket
       ) do
-    changeset = ChatRooms.change_chat_room(chat_room, chatroom_params)
+    form_params = %{
+      "name" => chatroom_params["name"],
+      "description" => chatroom_params["description"],
+      "private" => chatroom_params["private"],
+      "emails" => chatroom_params["email"]
+    }
 
-    {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
+    errors = []
+
+    errors =
+      if String.trim(chatroom_params["name"]) == "" do
+        [name: {"can't be blank", []}] ++ errors
+      else
+        errors
+      end
+
+    errors =
+      if String.trim(chatroom_params["description"]) == "" do
+        [description: {"can't be blank", []}] ++ errors
+      else
+        errors
+      end
+
+    socket =
+      socket
+      |> assign(form: to_form(form_params, as: :chat_room, errors: errors, action: :validate))
+
+    {:noreply, socket}
   end
 
   def handle_event(
@@ -99,10 +133,20 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
     end
   end
 
-  def handle_event("edit", %{"chat_room" => chatroom_params}, socket) do
-    chat_room = ChatRooms.get_chat_room!(socket.assigns.chat_room.id)
+  def handle_event(
+        "edit",
+        %{"chat_room" => chatroom_params},
+        %{assigns: %{current_user: current_user}} = socket
+      ) do
+    users =
+      [current_user] ++
+        Enum.map(chatroom_params["emails"] || [], fn e -> Accounts.get_user_by_email(e) end)
 
-    case ChatRooms.update_chat_room(chat_room, chatroom_params) do
+    chatroom_params =
+      chatroom_params
+      |> Map.put("users", users)
+
+    case ChatRooms.update_chat_room(socket.assigns.chat_room, chatroom_params) do
       {:ok, chatroom} ->
         PhxTalkWeb.Endpoint.broadcast("chat_room", "edit_chatroom", chatroom)
 

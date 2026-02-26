@@ -35,7 +35,7 @@ defmodule PhxTalk.ChatRooms do
       ** (Ecto.NoResultsError)
 
   """
-  def get_chat_room!(id), do: Repo.get!(ChatRoom, id)
+  def get_chat_room!(id), do: Repo.get!(ChatRoom, id) |> Repo.preload(:users)
 
   def get_first_chat_room() do
     q =
