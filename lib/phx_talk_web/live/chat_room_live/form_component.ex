@@ -52,7 +52,7 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
 
   @impl true
   def update(%{chat_room: chat_room} = assigns, socket) do
-    emails = if assigns[:id] == :new, do: [], else: Enum.map(chat_room.users, fn u -> u.email end)
+    emails = get_emails(assigns[:id], chat_room.users)
 
     form_params = %{
       "name" => chat_room.name,
@@ -79,24 +79,10 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
       "name" => chatroom_params["name"],
       "description" => chatroom_params["description"],
       "private" => chatroom_params["private"],
-      "emails" => chatroom_params["email"]
+      "emails" => chatroom_params["emails"]
     }
 
-    errors = []
-
-    errors =
-      if String.trim(chatroom_params["name"]) == "" do
-        [name: {"can't be blank", []}] ++ errors
-      else
-        errors
-      end
-
-    errors =
-      if String.trim(chatroom_params["description"]) == "" do
-        [description: {"can't be blank", []}] ++ errors
-      else
-        errors
-      end
+    errors = errors_from_chatroom_params(form_params)
 
     socket =
       socket
@@ -110,9 +96,7 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
         %{"chat_room" => chatroom_params},
         %{assigns: %{current_user: current_user}} = socket
       ) do
-    users =
-      [current_user] ++
-        Enum.map(chatroom_params["emails"] || [], fn e -> Accounts.get_user_by_email(e) end)
+    users = get_users(chatroom_params["emails"], current_user)
 
     chatroom_params =
       chatroom_params
@@ -138,9 +122,7 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
         %{"chat_room" => chatroom_params},
         %{assigns: %{current_user: current_user}} = socket
       ) do
-    users =
-      [current_user] ++
-        Enum.map(chatroom_params["emails"] || [], fn e -> Accounts.get_user_by_email(e) end)
+    users = get_users(chatroom_params["emails"], current_user)
 
     chatroom_params =
       chatroom_params
@@ -158,5 +140,26 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, form: to_form(changeset))}
     end
+  end
+
+  defp get_emails(:new, _), do: []
+  defp get_emails(_, users), do: Enum.map(users, fn u -> u.email end)
+
+  defp get_users(nil, _), do: []
+
+  defp get_users(emails, current_user) do
+    [current_user | Enum.map(emails, fn e -> Accounts.get_user_by_email(e) end)]
+  end
+
+  defp errors_from_chatroom_params(chatroom_params) do
+    chatroom_params
+    |> Enum.reject(fn {key, _} -> key == "emails" end)
+    |> Enum.reduce([], fn {key, value}, acc ->
+      case {key, String.trim(value)} do
+        {"name", ""} -> [{:name, {"can't be blank", []}} | acc]
+        {"description", ""} -> [{:description, {"can't be blank", []}} | acc]
+        _ -> acc
+      end
+    end)
   end
 end
