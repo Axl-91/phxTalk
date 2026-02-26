@@ -86,7 +86,8 @@ defmodule PhxTalkWeb.ChatComponents do
             <tr :for={{id, chat_message} <- @streams.chat_messages} id={id}>
               <td class="border-t hover:bg-gray-200 flex justify-between">
                 <div>
-                  <b class="text-blue-500">{chat_message.user.email}:</b>
+                  <% user_color = get_user_color(@current_user.email, chat_message.user.email) %>
+                  <b class={user_color}>{chat_message.user.email}:</b>
                   <i class="text-gray-800 text-sm">{chat_message.message}</i>
                 </div>
                 <div class="text-gray-500 text-xs">
@@ -99,6 +100,27 @@ defmodule PhxTalkWeb.ChatComponents do
       </div>
     </div>
     """
+  end
+
+  defp color_palette() do
+    [
+      "text-red-500",
+      "text-green-500",
+      "text-lime-500",
+      "text-yellow-500",
+      "text-purple-500",
+      "text-indigo-500",
+      "text-mauve-500",
+      "text-pink-500"
+    ]
+  end
+
+  defp get_user_color(email, email), do: "text-blue-500"
+
+  defp get_user_color(_, email) do
+    color_palette = color_palette()
+    index = :erlang.phash2(email, length(color_palette))
+    Enum.at(color_palette, index)
   end
 
   defp public(chat_rooms), do: Enum.filter(chat_rooms, fn cr -> not cr.private end)
