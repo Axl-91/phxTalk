@@ -110,10 +110,10 @@ defmodule PhxTalkWeb.ChatRoomLive.Index do
       |> assign(:chat_rooms, chat_rooms ++ [new_chat_room])
       |> assign(
         :active_chat_room,
-        if !active_chat_room do
-          new_chat_room
-        else
+        if active_chat_room do
           active_chat_room
+        else
+          new_chat_room
         end
       )
 

@@ -7,8 +7,11 @@
       current_user={@current_user}
       active_chat_room={@active_chat_room}
     />
-    <PhxTalkWeb.ChatComponents.chat_messages streams={@streams}
-      active_chat_room={@active_chat_room} />
+    <PhxTalkWeb.ChatComponents.chat_messages
+      streams={@streams}
+      active_chat_room={@active_chat_room}
+      current_user={@current_user}
+    />
   </div>
 
   <.live_component
