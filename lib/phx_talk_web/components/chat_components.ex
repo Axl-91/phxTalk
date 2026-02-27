@@ -96,10 +96,14 @@ defmodule PhxTalkWeb.ChatComponents do
           <i>{@active_chat_room.description}</i>
         </div>
       <% end %>
-      <div class="shadow-lg overflow-y-auto">
+      <div id="table-div" class="overflow-y-auto transition-opacity duration-500 opacity-0">
         <table class="w-full border-spacing-1">
-          <tbody id="chat_messages" phx-update="stream">
-            <tr :for={{id, chat_message} <- @streams.chat_messages} id={id}>
+          <tbody id="chat_messages" phx-update="stream" phx-hook="FadeIn">
+            <tr
+              :for={{id, chat_message} <- @streams.chat_messages}
+              id={id}
+              class="transition-opacity duration-500 opacity-0"
+            >
               <td class="px-2 py-1 border-t hover:bg-gray-200 flex justify-between">
                 <div>
                   <% user_color = get_user_color(@current_user.email, chat_message.user.email) %>

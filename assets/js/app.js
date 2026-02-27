@@ -50,6 +50,27 @@ Hooks.updateTable = {
   }
 };
 
+Hooks.FadeIn = {
+  mounted() {
+    setTimeout(() => this.fadeInMessages(), 10);
+  },
+  updated() {
+    const tableDiv = document.getElementById('table-div');
+    if (tableDiv) {
+      tableDiv.classList.remove('shadow-lg')
+      tableDiv.classList.add('opacity-0')
+    }
+    setTimeout(() => { this.fadeInMessages() }, 200);
+  },
+  fadeInMessages() {
+    document.getElementById('table-div').classList.add('shadow-lg')
+    document.getElementById('table-div').classList.remove('opacity-0')
+    this.el.querySelectorAll('tr').forEach((row) => {
+      row.classList.remove('opacity-0');
+    });
+  }
+};
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
