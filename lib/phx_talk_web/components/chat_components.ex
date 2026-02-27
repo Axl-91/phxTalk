@@ -35,14 +35,16 @@ defmodule PhxTalkWeb.ChatComponents do
     <div class="float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-1/6 h-[600px]">
       <div class="flex flex-col h-full">
         <div class="h-1/2 overflow-y-auto">
-          <h1 class="font-bold tracking-tighter bg-orange-500 px-1">Public:</h1>
+          <h1 class="font-bold tracking-tighter bg-orange-500 border-b-2 border-orange-700 px-1">
+            Public:
+          </h1>
           <%= for chat_room <- public(@chat_rooms) do %>
             <% assigns = assign(assigns, :chat_room, chat_room) %>
             {show_chat_rooms(assigns)}
           <% end %>
         </div>
         <div class="h-1/2 tracking-tighter overflow-y-auto">
-          <h1 class="font-bold bg-orange-500 px-1">Private:</h1>
+          <h1 class="font-bold bg-orange-500 border-y-2 border-orange-700 px-1">Private:</h1>
           <%= for chat_room <- private(@current_user, @chat_rooms) do %>
             <% assigns = assign(assigns, :chat_room, chat_room) %>
             {show_chat_rooms(assigns)}

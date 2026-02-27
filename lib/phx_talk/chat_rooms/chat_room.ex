@@ -12,7 +12,10 @@ defmodule PhxTalk.ChatRooms.ChatRoom do
 
     belongs_to :user, PhxTalk.Accounts.User
     has_many :chat_messages, PhxTalk.ChatMessages.ChatMessage
-    many_to_many :users, PhxTalk.Accounts.User, join_through: "chat_room_users"
+
+    many_to_many :users, PhxTalk.Accounts.User,
+      join_through: "chat_room_users",
+      on_replace: :delete
 
     timestamps(type: :utc_datetime)
   end
