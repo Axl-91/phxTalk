@@ -31,7 +31,7 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
         <.input
           field={@form[:emails]}
           type="select"
-          options={Enum.reject(Accounts.list_users(), fn email -> email == @current_user.email end)}
+          options={get_email_options(@current_user.email)}
           label="Select Users"
           hidden={@form[:private].value}
           multiple
@@ -141,6 +141,9 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
         {:noreply, assign(socket, form: to_form(changeset))}
     end
   end
+
+  defp get_email_options(creator_email),
+    do: Enum.reject(Accounts.list_users(), fn email -> email == creator_email end)
 
   defp get_emails(:new, _), do: []
   defp get_emails(_, users), do: Enum.map(users, fn u -> u.email end)
