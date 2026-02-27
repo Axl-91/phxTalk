@@ -32,7 +32,7 @@ defmodule PhxTalkWeb.ChatComponents do
 
   def chat_rooms(assigns) do
     ~H"""
-    <div class="float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-1/6 h-[600px]">
+    <div class="float-left border-2 border-r-orange-900 border-orange-600 bg-gray-200 w-2/6 xl:w-1/6 h-[600px]">
       <div class="flex flex-col h-full">
         <div class="h-1/2 overflow-y-auto">
           <h1 class="font-bold tracking-tighter bg-orange-500 border-b-2 border-orange-700 px-1">
@@ -87,7 +87,7 @@ defmodule PhxTalkWeb.ChatComponents do
     ~H"""
     <div
       id="messages_table"
-      class="tabcontent w-5/6 border-2 border-l-0 border-orange-600 block float-left overflow-y-scroll h-[600px]"
+      class="tabcontent w-4/6 md:w-5/6 border-2 border-l-0 border-orange-600 block float-left overflow-y-scroll h-[600px]"
       phx-hook="updateTable"
     >
       <%= if @active_chat_room do %>
@@ -106,7 +106,7 @@ defmodule PhxTalkWeb.ChatComponents do
                   <b class={user_color}>{chat_message.user.email}:</b>
                   <i class="text-gray-800 text-sm">{chat_message.message}</i>
                 </div>
-                <div class="text-gray-500 text-xs">
+                <div class="text-gray-500 text-xs whitespace-nowrap">
                   {get_time_chat(chat_message)}
                 </div>
               </td>
@@ -145,7 +145,9 @@ defmodule PhxTalkWeb.ChatComponents do
     if NaiveDateTime.to_date(inserted_at) == today do
       "#{Calendar.strftime(inserted_at, "%H:%M")}"
     else
-      "#{Calendar.strftime(inserted_at, "%d/%m/%Y %H:%M")}"
+      if today.year == inserted_at.year,
+        do: "#{Calendar.strftime(inserted_at, "%d/%m %H:%M")}",
+        else: "#{Calendar.strftime(inserted_at, "%d/%m/%Y %H:%M")}"
     end
   end
 end
