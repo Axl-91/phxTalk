@@ -57,8 +57,7 @@ defmodule PhxTalkWeb.ChatComponents do
 
   defp show_chat_rooms(assigns) do
     ~H"""
-    <% button_color =
-      if @chat_room.id == @active_chat_room.id, do: "bg-gray-400", else: "hover:bg-gray-300" %>
+    <% button_color = get_button_colors(@chat_room.id, @active_chat_room.id) %>
     <button
       class={"flex w-full justify-between items-center overflow-y-scroll p-2 font-italic #{button_color} transition duration-500"}
       phx-click="change_chatroom"
@@ -75,6 +74,7 @@ defmodule PhxTalkWeb.ChatComponents do
             class="fas fa-trash-alt text-red-700 cursor-pointer transition-transform duration-300 hover:scale-125"
             phx-click="delete_chatroom"
             phx-value-id={@chat_room.id}
+            data-confirm="Are you sure?"
           >
           </i>
         </div>
@@ -154,4 +154,7 @@ defmodule PhxTalkWeb.ChatComponents do
         else: "#{Calendar.strftime(inserted_at, "%d/%m/%Y %H:%M")}"
     end
   end
+
+  defp get_button_colors(id, id), do: "bg-gray-400"
+  defp get_button_colors(_, _), do: "hover:bg-gray-300"
 end
