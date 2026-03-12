@@ -148,7 +148,7 @@ defmodule PhxTalkWeb.ChatRoomLive.FormComponent do
   defp get_emails(:new, _), do: []
   defp get_emails(_, users), do: Enum.map(users, fn u -> u.email end)
 
-  defp get_users(nil, _), do: []
+  defp get_users(nil, current_user), do: [current_user]
 
   defp get_users(emails, current_user) do
     [current_user | Enum.map(emails, fn e -> Accounts.get_user_by_email(e) end)]
